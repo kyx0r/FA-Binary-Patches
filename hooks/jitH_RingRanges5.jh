@@ -1,0 +1,6 @@
+--baseVA=7EF198 
+--offs=3EF198 
+--arch=x86
+ 
+jmp 12630643                            ; E9D6C84100
+BYTES:E9D6C84100

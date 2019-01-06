@@ -1,0 +1,6 @@
+*.exe
+/lib
+/build
+Env.ld
+*.o
+nop

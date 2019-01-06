@@ -1,0 +1,9 @@
+--baseVA=C0B9BE 
+--offs=80B9BE 
+--arch=x86
+ 
+mov eax, dword [esp+40]                 ; 3E8B442428
+mov ebx, dword [eax]                    ; 8B18
+mov dword [esp-16488], ebx              ; 899C2498BFFFFF
+jmp 8319232                             ; E92F37BEFF
+BYTES:3E8B4424288B18899C2498BFFFFFE92F37BEFF
