@@ -1,0 +1,6 @@
+--baseVA=7F944D 
+--offs=3F944D 
+--arch=x86
+ 
+call 19452864                           ; E86E3FA900
+BYTES:E86E3FA900

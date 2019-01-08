@@ -2,6 +2,11 @@
 #include "typeDefs.h"
 #include "moho.h"
 
+void RangeRings();
+void GlobalRings();
+void SelectionRings();
+void GetSelectedUnits();
+
 class GFT
 {
 public:
