@@ -6,6 +6,9 @@ void RangeRings();
 void GlobalRings();
 void SelectionRings();
 void GetSelectedUnits();
+void SearchIndexWithString();
+void GeometricCamera();
+void LowResolutionGeonometricCamera();
 
 class GFT
 {

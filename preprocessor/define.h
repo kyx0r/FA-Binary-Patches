@@ -11,7 +11,10 @@
 #define GFT__LuaPlus_LuaObject_LuaObject 0x128de50
 #define GFT__sub_5796A0 0x128de80
 #define GFT__Moho_SSTICommandIssueData_SSTICommandIssueData 0x128ded0
-#define print_hello_world 0x128dfb0
-#define dec_IssueMove 0x128dfd0
-#define GFT__Push_Coordinates 0x128dfe0
-#define GFT__nanTest 0x128e070
+#define SearchIndexWithString 0x128dfb0
+#define GeometricCamera 0x128e0b0
+#define LowResolutionGeonometricCamera 0x128e570
+#define print_hello_world 0x128eb70
+#define dec_IssueMove 0x128eb90
+#define GFT__Push_Coordinates 0x128eba0
+#define GFT__nanTest 0x128ec30

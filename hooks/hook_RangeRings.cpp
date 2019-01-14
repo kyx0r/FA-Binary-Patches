@@ -12,5 +12,6 @@ __asm__
 __asm__ volatile
 (
     "call . + by_pass_address \n"
+	".byte 0xE8 \n"
     ".align 128, 0x0 \n"
 );
