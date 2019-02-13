@@ -9,6 +9,13 @@ void GetSelectedUnits();
 void SearchIndexWithString();
 void GeometricCamera();
 void LowResolutionGeonometricCamera();
+void AirMotionTick();
+void AllUnitsMotionTick();
+void CalcMoveLand();
+void MoveTo();
+void Unit_MotionTick();
+void UpdateCurrentPosition();
+void NavigationTick();
 
 class GFT
 {
