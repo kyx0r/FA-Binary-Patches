@@ -20,12 +20,12 @@ void GlobalRings()
 		"mov ebx,ebp \n " 
 	);
 	__asm__ (
-		"call 8330320 \n " 
+		"call -0x1000 +8330320 \n " 
 		"mov eax,dword ptr [esp+0x30] \n " 
 		"lea esi,dword ptr [esp+0x34] \n " 
 	);
 	__asm__ (
-		"call 8327632 \n " 
+		"call -0x1000 +8327632 \n " 
 		"mov eax,dword ptr [esp+0x34] \n " 
 		"cmp eax,dword ptr [0x10BF00C] \n " 
 		"je ExitLabel2 \n " 
@@ -80,7 +80,7 @@ void GlobalRings()
 		"add edx,0x20 \n " 
 	);
 	__asm__ (
-		"call 5683664 \n " 
+		"call -0x1000 +5683664 \n " 
 		"test eax,eax \n " 
 		"jbe ExitLabel \n " 
 		"mov ecx,dword ptr [esp+0x34] \n " 
@@ -118,7 +118,7 @@ void GlobalRings()
 		"mov esi,ebp \n " 
 	);
 	__asm__ (
-		"call 8327952 \n " 
+		"call -0x1000 +8327952 \n " 
 		"ExitLabel: \n"
 		"mov ecx,dword ptr [esp+0x28] \n " 
 		"add ebx,0x8 \n " 
@@ -150,7 +150,7 @@ void GetSelectedUnits()
 		"lea edi,dword ptr [esp+0x28] \n " 
 	);
 	__asm__ (
-		"call 6730544 \n " 
+		"call -0x1000 +6730544 \n " 
 		"mov dword ptr [0x011FD23B],0 \n"
 		"mov eax,dword ptr [eax] \n " 
 		"cmp eax,dword ptr [esi+0x4] \n " 
@@ -177,19 +177,19 @@ void GetSelectedUnits()
 		"lea esi,dword ptr [esp+0x1C] \n " 
 	);
 	__asm__ (
-		"call 8532592 \n " 
+		"call -0x1000 +8532592 \n " 
 		"label2_sel: \n"
 		"lea edx,dword ptr [esp+0x10] \n " 
 	);
 	__asm__ (
-		"call 6733264 \n " 
+		"call -0x1000 +6733264 \n " 
 		"mov eax,dword ptr [esp+0x10] \n " 
 		"mov esi,dword ptr [esp+0xC] \n " 
 		"push eax \n " 
 		"lea edi,dword ptr [esp+0x28] \n " 
 	);
 	__asm__ (
-		"call 6730544 \n " 
+		"call -0x1000 +6730544 \n " 
 		"mov eax,dword ptr [eax] \n " 
 		"cmp eax,dword ptr [ebx+0x4A4] \n " 
 		"mov dword ptr [esp+0x10],eax \n " 
@@ -227,7 +227,7 @@ void SelectionRings()
 		"lea eax,dword ptr [esp+0x18] \n " 
 	);
 	__asm__ (
-		"call 8330320 \n " 
+		"call -0x1000 +8330320 \n " 
 		"cmp byte ptr [0x10A640A],0x0 \n " 
 		"je exit1 \n " 
 		"mov esi,dword ptr [esp+0x50] \n " 
@@ -239,7 +239,7 @@ void SelectionRings()
 		"mov ecx,esi \n " 
 	);
 	__asm__ (
-		"call 4241536 \n " 
+		"call -0x1000 +4241536 \n " 
 		"test eax,eax \n " 
 		"je exit1 \n " 
 		"mov ecx,dword ptr [esi+0x14] \n " 
@@ -250,7 +250,7 @@ void SelectionRings()
 		"mov ecx,esi \n " 
 	);
 	__asm__ (
-		"call 4241536 \n " 
+		"call -0x1000 +4241536 \n " 
 		"test eax,eax \n " 
 		"je exit1 \n " 
 		"mov eax,dword ptr [edi+0x488] \n " 
@@ -264,14 +264,14 @@ void SelectionRings()
 		"mov eax,esi \n " 
 	);
 	__asm__ (
-		"call 8317504 \n " 
+		"call -0x1000 +8317504 \n " 
 		"mov ebp,eax \n " 
 		"test ebp,ebp \n " 
 		"je exit1 \n " 
 		"lea esi,dword ptr [esp+0x1C] \n " 
 	);
 	__asm__ (
-		"call 8074688 \n " 
+		"call -0x1000 +8074688 \n " 
 		"mov eax,esi \n " 
 		"push eax \n " 
 		"mov ebx,edi \n " 
@@ -286,7 +286,7 @@ void SelectionRings()
 		: "memory"
 	);
 	__asm__ (
-		"call 8074736 \n " 
+		"call -0x1000 +8074736 \n " 
 		"mov eax,dword ptr [esp+0x18] \n " 
 		"cmp eax,dword ptr [esp+0x20] \n " 
 		"je CleanUpExit \n " 
@@ -315,7 +315,7 @@ void SelectionRings()
 		"add edx,0x20 \n " 
 	);
 	__asm__ (
-		"call 5683664 \n " 
+		"call -0x1000 +5683664 \n " 
 		"test eax,eax \n " 
 		"jbe ContinueLoop \n " 
 		"fld dword ptr [esp+0x54] \n " 
@@ -361,13 +361,13 @@ void SelectionRings()
 		"lea edx,dword ptr [esp+0x28] \n " 
 	);
 	__asm__ (
-		"call 8327952 \n " 
+		"call -0x1000 +8327952 \n " 
 		"ContinueLoop: \n"
 		"lea eax,dword ptr [esp+0x14] \n " 
 		"push eax \n " 
 	);
 	__asm__ (
-		"call 8328336 \n " 
+		"call -0x1000 +8328336 \n " 
 		"mov eax,dword ptr [esp+0x18] \n " 
 		"cmp eax,dword ptr [esp+0x20] \n " 
 		"jne LoopStart \n " 
@@ -376,7 +376,7 @@ void SelectionRings()
 		"mov dword ptr [esp+0x44],0xFFFFFFFF \n " 
 	);
 	__asm__ (
-		"call 8074544 \n " 
+		"call -0x1000 +8074544 \n " 
 		"exit1: \n"
 		"mov ecx,dword ptr [esp+0x3C] \n " 
 		"pop edi \n " 
@@ -408,7 +408,7 @@ void RangeRings()
 		"mov edi,ecx \n " 
 	);
 	__asm__ (
-		"call 9336624 \n " 
+		"call -0x1000 +9336624 \n " 
 		"xor esi,esi \n " 
 		"mov dword ptr [esp+0x18],esi \n " 
 		"mov dword ptr [esp+0x1C],esi \n " 
@@ -425,11 +425,11 @@ void RangeRings()
 		"mov ecx,edi \n " 
 	);
 	__asm__ (
-		"call 8322640 \n " 
+		"call -0x1000 +8322640 \n " 
 		"label1: \n"
 		"mov eax,dword ptr [ebp+0x14] \n " 
 		"cmp eax,esi \n " 
-		"je 8321877 \n " //STARTREGULARFUNC_NO_OVERLOAD
+		"je -0x1000 + 8321877 \n " //STARTREGULARFUNC_NO_OVERLOAD
 		"mov ecx,dword ptr [ebp+0x18] \n " 
 		"sub ecx,eax \n " 
 		"mov eax,0x78787879 \n " 
@@ -438,7 +438,7 @@ void RangeRings()
 		"mov eax,edx \n " 
 		"shr eax,0x1F \n " 
 		"add eax,edx \n " 
-		"je 8321877 \n " //STARTREGULARFUNC_NO_OVERLOAD
+		"je -0x1000 + 8321877 \n " //STARTREGULARFUNC_NO_OVERLOAD
 		"mov edx,dword ptr [ebx] \n " 
 		"mov eax,dword ptr [edx+0x8] \n " 
 		"mov ecx,ebx \n " 
@@ -452,7 +452,7 @@ void RangeRings()
 		"mov edx,eax \n " 
 	);
 	__asm__ (
-		"call 8328144 \n " 
+		"call -0x1000 +8328144 \n " 
 		"mov byte ptr [esp+0x19C],0x1 \n " 
 		"mov eax,dword ptr [ebp+0x14] \n " 
 		"cmp eax,dword ptr [ebp+0x18] \n " 
@@ -488,7 +488,7 @@ void RangeRings()
 		: "memory"
 	);
 	__asm__ (
-		"call 8324512 \n " 
+		"call -0x1000 +8324512 \n " 
 		"mov eax,dword ptr [ebp+0x18] \n " 
 		"add esi,0x88 \n " 
 		"lea ecx,dword ptr [esi-0x78] \n " 
@@ -544,7 +544,7 @@ void RangeRings()
 		"push edx \n " 
 	);
 	__asm__ (
-		"call 11023682 \n " 
+		"call -0x1000 +11023682 \n " 
 		"add esp,0x4 \n " 
 		"label2: \n"
 		"mov ecx,dword ptr [ebp+0x8] \n " 
@@ -580,11 +580,11 @@ void RangeRings()
 		: "memory"		
 	);
 	__asm__ (
-		"call 8324512 \n " 
+		"call -0x1000 +8324512 \n " 
 		"lea edx,dword ptr [esp+0xC] \n " 
 	);
 	__asm__ (
-		"call 8335440 \n " 
+		"call -0x1000 +8335440 \n " 
 		"mov eax,dword ptr [esp+0xC] \n " 
 		"cmp eax,dword ptr [ebp+0x8] \n " 
 		"jne label11 \n " 
@@ -602,11 +602,11 @@ void RangeRings()
 	);
 
 	__asm__ (
-		"call 8324128 \n " 
+		"call -0x1000 +8324128 \n " 
 		"lea eax,dword ptr [esp+0x14] \n " 
 	);
 	__asm__ (
-		"call 8323520 \n " 
+		"call -0x1000 +8323520 \n " 
 		"movss xmm0,dword ptr [0xDFEC20] \n " 
 		"movss xmm1,dword ptr [0xDFEB0C] \n " 
 		"lea edx,dword ptr [esp+0x14] \n " 
@@ -631,14 +631,14 @@ void RangeRings()
 		"movss dword ptr [esp+0x4C],xmm0 \n " 
 	);
 	__asm__ (
-		"call 8324512 \n " 
+		"call -0x1000 +8324512 \n " 
 		"mov eax,dword ptr [esp+0x18] \n " 
 		"test eax,eax \n " 
 		"je label12 \n " 
 		"push eax \n " 
 	);
 	__asm__ (
-		"call 9800288 \n " 
+		"call -0x1000 +9800288 \n " 
 		"add esp,0x4 \n " 
 		"label12: \n"
 		"mov ecx,dword ptr [esp+0x194] \n " 

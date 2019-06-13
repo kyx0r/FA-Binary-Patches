@@ -2,6 +2,13 @@
 #include "typeDefs.h"
 #include "moho.h"
 
+extern _DWORD tag_sent;
+extern _DWORD num_clients;
+extern _DWORD terminated;
+extern _DWORD p_index;
+extern _DWORD sender_sock;
+extern _DWORD current_num_clients;
+
 void RangeRings();
 void GlobalRings();
 void SelectionRings();
@@ -16,6 +23,13 @@ void MoveTo();
 void Unit_MotionTick();
 void UpdateCurrentPosition();
 void NavigationTick();
+void Moho__CDecoder__DecodeMessage();
+void MOHO_USER_INPUT();
+void SessionEndGame();
+void Gpg_Net_Entry();
+void Conexecute();
+void sim_dispatch();
+void Update_Pipeline_Stream();
 
 class GFT
 {

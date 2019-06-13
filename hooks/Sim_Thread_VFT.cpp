@@ -115,6 +115,8 @@ __asm__
 	"pop ebp \n " 
 	"ret 0x4 \n " 
 	"L0xABEL_0x00409300: \n " 
+	"nop \n"
+	"nop \n"
 	"mov eax,0xFFFFFFFE \n " 
 	"mov ecx,dword ptr [ebp-0xC] \n " 
 	//"mov dword ptr [0x0],ecx \n " 

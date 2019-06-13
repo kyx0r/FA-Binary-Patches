@@ -1,4 +1,4 @@
-//HOOK GeometricCamera ROffset = 0x3FF0AC
+//HOOK sync_beat ROffset = 0x33DB9C
 
 #include <stdlib.h>
 #include "../preprocessor/define.h"
@@ -6,12 +6,12 @@
 
 __asm__
 (
-    ".equ by_pass_address,"QU(GeometricCamera)"-0x007FF0AC \n"
+    ".equ by_pass_address,"QU(Sync_Beat)"-0x0073DB9C \n"
 );
 
 __asm__ volatile
 (
     "call . + by_pass_address \n"
-	"fld dword ptr ss:[esp+0x10] \n"
+	"mov edx, dword ptr ds:[eax] \n"
     ".align 128, 0x0 \n"
 );

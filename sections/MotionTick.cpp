@@ -8,49 +8,49 @@ void AirMotionTick()
 	(
 		" \n " //!Source: forgedalliance.exe (base 0x00400000 - 4194304)
 		" \n " //!; Internal calls outside selected range (before)
-		"_0x679290 = 0x0067A290 \n " //!; 0x00679290
-		"_0x4EC590 = 0x004ED590 \n " //!; 0x004EC590
-		"_0x452FC0=  0x00453FC0 \n " //!; 
-		"_0x452D40=  0x00453D40 \n " //!; 
-		"_0x44FB90= 0x00450B90 \n " //!; 
-		"_0x5B1C90= 0x005B2C90 \n " //!; 
-		"_0x6BC820= 0x006BD820 \n " //!; 
-		"_0x50AD80= 0x0050BD80 \n " //!; 
-		"_0x67F450= 0x00680450 \n " //!; 
-		"_0x40E9F0= 0x0040F9F0 \n " //!; 
-		"_0x6BC8E0= 0x006BD8E0 \n " //!; 
-		"_0x6AC940= 0x006AD940 \n " //!; 
-		"_0x62B780= 0x0062C780 \n " //!; 
-		"_0x678880= 0x00679880 \n " //!; 
-		"_0x50B010= 0x0050C010 \n " //!; 
-		"_0x6AB6F0= 0x006AC6F0 \n " //!; 
-		"_0x50ACC0= 0x0050BCC0 \n " //!; 
-		"_0x5413C0= 0x005423C0 \n " //!; 
-		"_0x6A8C20= 0x006A9C20 \n " //!; 
-		"_0x4F0A50= 0x004F1A50 \n " //!; 
-		"_0x44F7E0= 0x004507E0 \n " //!; 
-		"_0x62D620= 0x0062E620 \n " //!; 
-		"_0x405550= 0x00406550 \n " //!; 
-		"_0x67B050= 0x0067C050 \n " //!; 
-		"_0x6AB760= 0x006AC760 \n " //!; 
-		"_0x67AFF0= 0x0067BFF0 \n " //!; 
-		"_0x6B8F70= 0x006B9F70 \n " //!; 
-		"_0x5D5670= 0x005D6670 \n " //!; 
-		"_0x5E2A10= 0x005E3A10 \n " //!; 
-		"_0x6BCDB0= 0x006BDDB0 \n " //!; 
-		"_0x6BE6B0= 0x006BF6B0 \n " //!; 
-		"_0x6B8FB0= 0x006B9FB0 \n " //!; 
-		"_0x6B8F30= 0x006B9F30 \n " //!; 
-		"_0x6978D0= 0x006988D0 \n " //!; 
-		"_0x6BC460= 0x006BD460 \n " //!; 
-		"_0x697750= 0x00698750 \n " //!;
-		"_0x747460= 0x00748460 \n "
+		"_0x679290= - 0x1000 +0x0067A290 \n " //!; 0x00679290
+		"_0x4EC590= - 0x1000 +0x004ED590 \n " //!; 0x004EC590
+		"_0x452FC0= - 0x1000 +0x00453FC0 \n " //!; 
+		"_0x452D40= - 0x1000 +0x00453D40 \n " //!; 
+		"_0x44FB90= - 0x1000 +0x00450B90 \n " //!; 
+		"_0x5B1C90= - 0x1000 + 0x005B2C90 \n " //!; 
+		"_0x6BC820= - 0x1000 + 0x006BD820 \n " //!; 
+		"_0x50AD80= - 0x1000 + 0x0050BD80 \n " //!; 
+		"_0x67F450= - 0x1000 + 0x00680450 \n " //!; 
+		"_0x40E9F0= - 0x1000 + 0x0040F9F0 \n " //!; 
+		"_0x6BC8E0= - 0x1000 + 0x006BD8E0 \n " //!; 
+		"_0x6AC940= - 0x1000 + 0x006AD940 \n " //!; 
+		"_0x62B780= - 0x1000 + 0x0062C780 \n " //!; 
+		"_0x678880= - 0x1000 + 0x00679880 \n " //!; 
+		"_0x50B010= - 0x1000 + 0x0050C010 \n " //!; 
+		"_0x6AB6F0= - 0x1000 + 0x006AC6F0 \n " //!; 
+		"_0x50ACC0= - 0x1000 + 0x0050BCC0 \n " //!; 
+		"_0x5413C0= - 0x1000 + 0x005423C0 \n " //!; 
+		"_0x6A8C20= - 0x1000 + 0x006A9C20 \n " //!; 
+		"_0x4F0A50= - 0x1000 + 0x004F1A50 \n " //!; 
+		"_0x44F7E0= - 0x1000 + 0x004507E0 \n " //!; 
+		"_0x62D620= - 0x1000 + 0x0062E620 \n " //!; 
+		"_0x405550= - 0x1000 + 0x00406550 \n " //!; 
+		"_0x67B050= - 0x1000 + 0x0067C050 \n " //!; 
+		"_0x6AB760= - 0x1000 + 0x006AC760 \n " //!; 
+		"_0x67AFF0= - 0x1000 + 0x0067BFF0 \n " //!; 
+		"_0x6B8F70= - 0x1000 + 0x006B9F70 \n " //!; 
+		"_0x5D5670= - 0x1000 + 0x005D6670 \n " //!; 
+		"_0x5E2A10= - 0x1000 + 0x005E3A10 \n " //!; 
+		"_0x6BCDB0= - 0x1000 + 0x006BDDB0 \n " //!; 
+		"_0x6BE6B0= - 0x1000 + 0x006BF6B0 \n " //!; 
+		"_0x6B8FB0= - 0x1000 + 0x006B9FB0 \n " //!; 
+		"_0x6B8F30= - 0x1000 + 0x006B9F30 \n " //!; 
+		"_0x6978D0= - 0x1000 + 0x006988D0 \n " //!; 
+		"_0x6BC460= - 0x1000 + 0x006BD460 \n " //!; 
+		"_0x697750= - 0x1000 + 0x00698750 \n " //!;
+		"_0x747460= - 0x1000 + 0x00748460 \n "
 		" \n " //!Start of selected range: 0x006BEE50
 		"push 0xFFFFFFFF \n " 
 		"push 0xBB99F0 \n " 
-		"mov eax,dword ptr [fs:0x0] \n " 
+		//"mov eax,dword ptr [fs:0x0] \n " 
 		"push eax \n " 
-		"mov dword ptr fs:[0x0],esp \n " 
+		//"mov dword ptr fs:[0x0],esp \n " 
 		"sub esp,0xC8 \n " 
 		"push ebx \n " 
 		"push ebp \n " 
@@ -840,7 +840,7 @@ void AirMotionTick()
 		"jb L0xABEL_0x006BFA53  \n " //!; => 0x006BFA53
 		"mov ecx,dword ptr [esp+0x98] \n " 
 		"push ecx \n " 
-		"call 0x958A60 \n " 
+		"call -0x1000 + 0x958A60 \n " 
 		"add esp,0x4 \n " 
 		"L0xABEL_0x006BFA53: \n " 
 		"test bl,bl \n " 
@@ -1374,7 +1374,7 @@ void AirMotionTick()
 		"pop edi \n " 
 		"pop esi \n " 
 		"pop ebp \n " 
-		"mov dword ptr [fs:0x0],ecx \n " 
+		//"mov dword ptr [fs:0x0],ecx \n " 
 		"pop ebx \n " 
 		"add esp,0xD4 \n " 
 		"ret 0x8 \n " 
@@ -1390,11 +1390,10 @@ void CalcMoveLand()
 	(
 		" \n " //!; Source: forgedalliance_exxt.exe (base 0x00400000 - 4194304)
 		" \n " //!; Internal calls outside selected range (before)
-		"edx =  4096 \n " 
-		"_0x6C1E20 =  7089696 \n " 
-		"_0x6C2F00 =  7094016 \n " 
-		"_0x6C1610 =  7087632 \n " 
-		"_0x6C2A40 =  7092800 \n " 
+		"_0x6C1E20 = - 0x1000 +7089696 \n " 
+		"_0x6C2F00 = - 0x1000 +7094016 \n " 
+		"_0x6C1610 = - 0x1000 +7087632 \n " 
+		"_0x6C2A40 = - 0x1000 +7092800 \n " 
 		" \n " //!; Start of selected range: 0x006C3180
 		"push ebp \n " 
 		"mov ebp,esp \n " 
@@ -1470,12 +1469,12 @@ void MoveTo()
 	(
 		" \n " //!Source: forgedalliance_exxt.exe (base 0x00400000 - 4194304)
 		" \n " //!; Internal calls outside selected range (before)
-		"_0x4EDAA0= 0x004EEAA0 \n " 
-		"_0x5657F0= 0x005667F0 \n " 
-		"_0x40DAB0= 0x0040EAB0 \n " 
-		"_0x678E90= 0x00679E90 \n " 
-		"_0x937CB0= 0x00938CB0 \n " 
-		"_0x746280= 0x00747280 \n " 
+		"_0x4EDAA0= - 0x1000 + 0x004EEAA0 \n " 
+		"_0x5657F0= - 0x1000 + 0x005667F0 \n " 
+		"_0x40DAB0= - 0x1000 + 0x0040EAB0 \n " 
+		"_0x678E90= - 0x1000 + 0x00679E90 \n " 
+		"_0x937CB0= - 0x1000 + 0x00938CB0 \n " 
+		"_0x746280= - 0x1000 + 0x00747280 \n " 
 		" \n " //!Start of selected range: 0x006B92E0
 		"push ecx \n " 
 		"push esi \n " 
@@ -1620,22 +1619,22 @@ __asm__
 (
 	" \n " //!Source: forgedalliance_exxt.exe (base 0x00400000 - 4194304)
 	" \n " //!; Internal calls outside selected range (before)
-	"_0x67F450= 0x00680450 \n " 
-	"_0x6B9020= 0x006BA020 \n " 
-	"_0x6B9940= 0x006BA940 \n " 
-	"_0x6B92E0= 0x006BA2E0 \n " 
-	"_0x6B8F30= 0x006B9F30 \n " 
-	"_0x6A9B50= 0x006AAB50 \n " 
-	"_0x6B8FF0= 0x006B9FF0 \n " 
-	"_0x67AFF0= 0x0067BFF0 \n " 
-	"_0x585B10= 0x00586B10 \n " 
-	"_0x6C35C0= 0x006C45C0 \n " 
-	"_0x6C2BC0= 0x006C3BC0 \n " 
-	"_0x6C3480= 0x006C4480 \n " 
-	"_0x6C3180= 0x006C4180 \n " 
-	"_0x6C1E20= 0x006C2E20 \n " 
-	"_0x6C2A40= 0x006C3A40 \n " 
-	"_0x6C0290= 0x006C1290 \n "
+	"_0x67F450= - 0x1000 + 0x00680450 \n " 
+	"_0x6B9020= - 0x1000 + 0x006BA020 \n " 
+	"_0x6B9940= - 0x1000 + 0x006BA940 \n " 
+	"_0x6B92E0= - 0x1000 + 0x006BA2E0 \n " 
+	"_0x6B8F30= - 0x1000 + 0x006B9F30 \n " 
+	"_0x6A9B50= - 0x1000 + 0x006AAB50 \n " 
+	"_0x6B8FF0= - 0x1000 + 0x006B9FF0 \n " 
+	"_0x67AFF0= - 0x1000 + 0x0067BFF0 \n " 
+	"_0x585B10= - 0x1000 + 0x00586B10 \n " 
+	"_0x6C35C0= - 0x1000 + 0x006C45C0 \n " 
+	"_0x6C2BC0= - 0x1000 + 0x006C3BC0 \n " 
+	"_0x6C3480= - 0x1000 + 0x006C4480 \n " 
+	"_0x6C3180= - 0x1000 + 0x006C4180 \n " 
+	"_0x6C1E20= - 0x1000 + 0x006C2E20 \n " 
+	"_0x6C2A40= - 0x1000 + 0x006C3A40 \n " 
+	"_0x6C0290= - 0x1000 + 0x006C1290 \n "
 	" \n " //!Start of selected range: 0x006B9D10
 	"push ebp \n " 
 	"mov ebp,esp \n " 
@@ -2123,27 +2122,26 @@ void Unit_MotionTick()
 	(
 		" \n " //!; Source: forgedalliance_exxt.exe (base 0x00400000 - 4194304)
 		" \n " //!; Internal calls outside selected range (before)
-		"edx =  4096 \n " 
-		"_0x63AA80 =  6535808 \n " 
-		"_0x581AA0 =  5778080 \n " 
-		"_0x57DDD0 =  5762512 \n " 
-		"_0x552550 =  5584208 \n " 
-		"_0x57ABB0 =  5749680 \n " 
-		"_0x6AA7A0 =  6993824 \n " 
-		"_0x6A9810 =  6989840 \n " 
-		//"_0x1290280 =  19468928 \n " 
-		"_0x775270 =  7823984 \n " 
-		"_0x6AAAC0 =  6994624 \n " 
-		"_0x6F12C0 =  7283392 \n " 
+		"_0x63AA80 = - 0x1000 +6535808 \n " 
+		"_0x581AA0 = - 0x1000 +5778080 \n " 
+		"_0x57DDD0 = - 0x1000 +5762512 \n " 
+		"_0x552550 = - 0x1000 +5584208 \n " 
+		"_0x57ABB0 = - 0x1000 +5749680 \n " 
+		"_0x6AA7A0 = - 0x1000 +6993824 \n " 
+		"_0x6A9810 = - 0x1000 +6989840 \n " 
+		//"_0x1290280 = - 0x1000 +19468928 \n " 
+		"_0x775270 = - 0x1000 +7823984 \n " 
+		"_0x6AAAC0 = - 0x1000 +6994624 \n " 
+		"_0x6F12C0 = - 0x1000 +7283392 \n " 
 		" \n " //!; Start of selected range: 0x006A9010
 		"push ebp \n " 
 		"mov ebp,esp \n " 
 		"and esp,0xFFFFFFF8 \n " 
 		"push 0xFFFFFFFF \n " 
-		"mov eax, dword ptr [fs:0x00000000] \n " 
+		//"mov eax, dword ptr [fs:0x00000000] \n " 
 		"push 0xBB9A18 \n " 
 		"push eax \n " 
-		"mov dword ptr [fs:0x00000000],esp \n " 
+		//"mov dword ptr [fs:0x00000000],esp \n " 
 		"sub esp,0xD4 \n " 
 		"push ebx \n " 
 		"push ebp \n " 
@@ -2344,7 +2342,7 @@ void Unit_MotionTick()
 		"cmp eax,dword ptr [esp+0x2C] \n " 
 		"je L0xABEL_0x006A92F6  \n " //!; => 0x006A92F6
 		"push eax \n " 
-		"call 0xA83542 \n " 
+		"call -0x1000 + 0xA83542 \n " 
 		"mov eax,dword ptr [esp+0x30] \n " 
 		"mov dword ptr [esp+0x24],eax \n " 
 		"mov ecx,dword ptr [eax] \n " 
@@ -2374,7 +2372,7 @@ void Unit_MotionTick()
 		"mov ecx,dword ptr [esp+0xE4] \n " 
 		"mov eax,dword ptr [esp+0x14] \n " 
 		"pop edi \n " 
-		"mov dword ptr [fs:0x00000000],ecx \n " 
+		//"mov dword ptr [fs:0x00000000],ecx \n " 
 		"pop esi \n " 
 		"pop ebp \n " 
 		"pop ebx \n " 
