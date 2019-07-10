@@ -2,12 +2,15 @@
 #include "typeDefs.h"
 #include "moho.h"
 
+extern _DWORD tick_num;
 extern _DWORD tag_sent;
 extern _DWORD num_clients;
 extern _DWORD terminated;
 extern _DWORD p_index;
 extern _DWORD sender_sock;
 extern _DWORD current_num_clients;
+extern _DWORD sync_buffer[17];
+extern bool paused;
 
 void RangeRings();
 void GlobalRings();
@@ -30,6 +33,7 @@ void Gpg_Net_Entry();
 void Conexecute();
 void sim_dispatch();
 void Update_Pipeline_Stream();
+void EndGame();
 
 class GFT
 {

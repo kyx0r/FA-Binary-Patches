@@ -3,11 +3,12 @@
 #include <stdlib.h>
 
 const char* safe_quit = "safeQuit";
-static _DWORD tick_num = 0;
+_DWORD tick_num = 0;
 static bool update_pl_count = true;
 _DWORD terminated = 0;
 _DWORD num_clients = 0;
 _DWORD current_num_clients = 0;
+bool paused = false;
 
 int strCmp(const char* s1, const char* s2)
 {
@@ -108,6 +109,17 @@ __attribute__((noinline)) void timed_out()
 	return;
 }
 
+__attribute__((noinline)) void xor_sync()
+{
+	register int eax asm("eax");
+	__asm__("xor eax,eax \n");
+	for(int i = 0; i<16; i++)
+	{
+		sync_buffer[i] = eax;
+	}	
+	return;
+}
+
 void SessionEndGame()
 {
 	register int eax asm("eax");	
@@ -129,7 +141,7 @@ void SessionEndGame()
 		__asm__
 		(	
 			"mov dword ptr [0x011FD243], 0x1 \n" // send network var
-			"push 0x3000 \n"
+			"push 0x2500 \n"
 			"push dword ptr [0x11FD253] \n"
 			"call dword ptr [WaitForSingleObject] \n"
 		);
@@ -144,18 +156,18 @@ void SessionEndGame()
 				: "memory"
 			);			
 		}
-		
-		__asm__
+			
+/* 		__asm__
 		(
 			"push 100 \n"
 			"call dword ptr [Sleep] \n"		
-		);
+		); */
 	}
 	__asm__
 	(
 		//"push 30000 \n"
 		//"call dword ptr [Sleep] \n"
-		
+		"mov dword ptr [0x011FD243], 0xC \n" //reset send trigger		
 		"mov eax,dword ptr [edi] \n " 
 		"push esi \n " 
 		"mov esi,dword ptr [0x10C5234] \n " 
@@ -186,10 +198,19 @@ void SessionEndGame()
 		"mov ecx,esi \n " 
 		"call eax \n " 
 	);
+	
+	__asm__ volatile
+	(
+		"call %[func]\n\t"
+		: 
+		: [func] "i" (&xor_sync)
+		: "memory"
+	);	
+	
 	__asm__
 	(
 		"mov dword ptr [0x011FD23F], 0xB \n" //RESET BLOCK VARIABLE
-		"mov dword ptr [0x011FD243], 0xC \n" //reset send trigger	
+		//"mov dword ptr [0x011FD243], 0xC \n" //reset send trigger	
 		"xor eax,eax \n " 
 		"pop esi \n " 
 		"ret  \n " 
@@ -361,6 +382,7 @@ void Moho__CDecoder__DecodeMessage()
 		);
 		break;
 	case 4: //sim request pause
+		paused = true;
 		__asm__
 		(
 		"pause: \n"
@@ -371,6 +393,7 @@ void Moho__CDecoder__DecodeMessage()
 		);	
 		break;
 	case 5: // sim resume
+		paused = false;
 		__asm__
 		(
 		"mov ecx,dword ptr [esi+0xC] \n " //4

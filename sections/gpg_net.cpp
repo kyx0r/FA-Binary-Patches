@@ -7,6 +7,8 @@
 _DWORD tag_sent = 0;
 _DWORD p_index = 0;
 _DWORD sender_sock = 1;
+_DWORD sync_buffer[17];
+_DWORD discard = 0;
 
 __attribute__((noinline)) void p_SetEvent()
 {
@@ -17,6 +19,36 @@ __attribute__((noinline)) void p_SetEvent()
 __attribute__((noinline)) void p_Tag()
 {
 	((int (*)(const char* fmt, ...))_Logf)("Tag packet sent \n");
+	return;
+}
+
+__attribute__((noinline)) void CheckClients()
+{
+	register int eax asm("eax");
+	discard = 0;
+	for(int i = 0; i<(current_num_clients-1); i++)
+	{
+		if (sync_buffer[i] == eax)
+		{
+			((int (*)(const char* fmt, ...))_Logf)("Discarded: %p \n", eax);
+			discard = 1;
+			break;
+		}
+	}	
+	return;
+}
+
+__attribute__((noinline)) void p_rptr()
+{
+	register int eax asm("eax");
+	((int (*)(const char* fmt, ...))_Logf)("recv Ptr: %p \n", eax);
+	return;
+}
+
+__attribute__((noinline)) void p_sptr()
+{
+	register int eax asm("eax");
+	((int (*)(const char* fmt, ...))_Logf)("send Ptr: %p \n", eax);
 	return;
 }
 
@@ -122,9 +154,38 @@ void _recvfrom()
 		"jne not_sender \n"
 		"cmp byte ptr [eax+0x3], 0xFE \n"
 		"jne not_received \n"
+		"cmp byte ptr [eax+0x2], 0x18 \n"
+		"jne not_received \n"
 		"mov byte ptr [eax+0x3], 0x0 \n" //JUST IN CASE CLEAR THE VARIABLE FROM NET BUFFER	
+		"mov byte ptr [eax+0x2], 0x0 \n" //JUST IN CASE CLEAR THE VARIABLE FROM NET BUFFER		
+		"mov eax,dword ptr [esp+0xA8] \n " //get sender's socket
 	);	
+		
+	__asm__ volatile
+	(
+		"call %[func]\n\t"
+		: 
+		: [func] "i" (&CheckClients)
+		: "memory"
+	);
+	
+	if(discard)
+	{
+		__asm__("jmp _skip \n");
+	}
+	
+	__asm__ volatile
+	(
+		"call %[func]\n\t"
+		"mov eax,dword ptr [esp+0xA8] \n " //get sender's socket		
+		: 
+		: [func] "i" (&p_rptr)
+		: "memory"
+	);	
+		
 	p_index++;
+	sync_buffer[p_index] = eax;
+	
 	if((current_num_clients-1) - p_index == 0)
 	{
 		__asm__
@@ -133,27 +194,29 @@ void _recvfrom()
 		"call dword ptr [SetEvent] \n"			
 		);
 		p_index = 0;
+		__asm__ volatile
+		(
+			"call %[func]\n\t"	
+			: 
+			: [func] "i" (&p_SetEvent)
+			: "memory"
+		);			
 	}
-		
-	__asm__ volatile
-	(
-		"call %[func]\n\t"
-		"jmp not_received \n"	
-		: 
-		: [func] "i" (&p_SetEvent)
-		: "memory"
-	);	
 		
 	__asm__
 	(	
+		"jmp not_received \n"
 		"not_sender: \n"
-		"cmp byte ptr [eax+0x3], 0xFF \n" //CHECK IF EXIT VARIABLE IS SET 
+		"cmp byte ptr [eax+0x3], 0xA4 \n" //CHECK IF EXIT VARIABLE IS SET 
 		"jne _skip \n"
+		"cmp byte ptr [eax+0x2], 0x4E \n" //CHECK IF EXIT VARIABLE IS SET 
+		"jne _skip \n"		
 		"mov byte ptr [eax+0x3], 0x0 \n" //JUST IN CASE CLEAR THE VARIABLE FROM NET BUFFER
+		"mov byte ptr [eax+0x2], 0x0 \n" //JUST IN CASE CLEAR THE VARIABLE FROM NET BUFFER
 		"mov dword ptr [0x011FD23F], 0x1 \n" //WRITE INTO THE LOCAL MEMORY SO THAT BLOCK CAN READ IT LATER
 		"mov eax,dword ptr [esp+0xA8] \n " //get sender's socket
 	);
-	if(sender_sock)
+	if(sender_sock == 1)
 	{
 		sender_sock = eax;
 	}
@@ -163,21 +226,10 @@ void _recvfrom()
 		"_skip: \n"
 		"not_received: \n"
 		
-	/* 	"lea edx,dword ptr [esp+0x4C] \n " //CUSTOM PACKET (A BUGGY MESS)
-		"push edx \n "
-		"lea ecx,dword ptr [esp+0xAC] \n " 
-		"push ecx \n " 	
-		"push 0x0 \n " 
-		"push 0x16 \n " 
-		"push 0x011FD24F \n " 
-		"mov edx,dword ptr [edi+0x14] \n " 
-		"push edx \n " 
-		"call dword ptr [recvfrom] \n "
-		"test eax,eax \n"
-		"jl _skip \n"
-		"int3 \n"
-		"mov dword ptr [0x011FD23F], 0x1 \n"
-		"_skip: \n" */
+	);
+		
+	__asm__
+	(
 		
 		"test esi,esi \n " 
 		"mov dword ptr [esp+0x10],esi \n " 
@@ -259,7 +311,21 @@ void _sendto()
 		"cmp dword ptr [0x011FD243], 0x1 \n" //CHECK IF SESSIONENDGAME WAS TRIGGERED (sender only)
 		"jne is_receiver \n"
 		"mov eax, edi \n" //if here, it is sender
-		"mov byte ptr [eax + 0x3], 0xFF \n" //WRITE VAR INTO THE PACKET HEADER
+		"mov byte ptr [eax + 0x3], 0xA4 \n" //WRITE VAR INTO THE PACKET HEADER
+		"mov byte ptr [eax + 0x2], 0x4E \n" //WRITE VAR INTO THE PACKET HEADER
+		"mov eax, dword ptr [edx] \n"
+	);	
+		__asm__ volatile
+		(
+			"call %[func]\n\t"
+			: 
+			: [func] "i" (&p_sptr)
+			: "memory"
+		);	
+			
+	__asm__
+	(	
+		
 		"jmp skip \n"
 		
 		"is_receiver: \n"
@@ -274,18 +340,19 @@ void _sendto()
 		{
 			__asm__ volatile
 			(
-				"mov dword ptr [0x011FD23F+0x30],eax \n"
+				//"mov dword ptr [0x011FD23F+0x30],eax \n"
 				"call %[func]\n\t"
 				: 
-				: [func] "i" (&p_Tag)
+				: [func] "i" (&p_sptr)
 				: "memory"
 			);				
 			__asm__
 			(
 			"mov eax, edi \n"
 			"mov byte ptr [eax + 0x3], 0xFE \n" //if receiver got the packet, notify the sender with 0xFE
+			"mov byte ptr [eax + 0x2], 0x18 \n"
 			);
-			sender_sock = 0;
+			//sender_sock = 0;
 		}
 	}
 	__asm__
@@ -293,20 +360,6 @@ void _sendto()
 		"skip: \n"
 		"call dword ptr [sendto] \n " 
 		
-/* 		"cmp dword ptr [0x011FD23F], 0x1 \n" //CUSTOM PACKET (A BUGGY MESS)
-		"jne skip \n"
-		"mov dword ptr [0x011FD24F], 0x1 \n"
-		"push 0x10 \n "
-		"lea edx,dword ptr [esp+0x28] \n "
-		"push edx \n " 
-		"push 0x0 \n " 
-		"push 0x16 \n " 
-		"push 0x011FD24F \n " 
-		"mov edx,dword ptr [ebp+0x418] \n "
-		"mov eax,dword ptr [edx+0x14] \n "
-		"push eax \n "	
-		"call dword ptr [sendto] \n "
-		"skip: \n" */
 		
 		"mov esi,dword ptr [ebp+0x418] \n " 
 		"call _0x489F30 \n " 
@@ -696,11 +749,6 @@ void Gpg_Net_Entry()
 		"mov dword ptr [0x0], eax \n"
 		"L0xABEL_0x0048A0CA: \n " 
 		
-		"cmp byte ptr [0x011FD24F], 0x0 \n"
-		"je no_quit \n"
-		"mov dword ptr [0x011FD243], 0x1 \n"
-		"no_quit: \n"
-
 		"xor ebp,ebp \n " 
 		"cmp dword ptr [0x10A6384],0x3 \n " 
 		"mov dword ptr [esp+0x28],ebp \n " 

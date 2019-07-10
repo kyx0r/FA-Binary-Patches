@@ -2,6 +2,10 @@
 #include "include/global_func_table.h"
 #include <stdlib.h>
 
+_DWORD input_tick = 0;
+_DWORD prev_tick = 0;
+_DWORD init_tick = 0;
+
 void MOHO_USER_INPUT()
 {
 	register int eax asm("eax");
@@ -65,15 +69,26 @@ void MOHO_USER_INPUT()
 		"Sleep = 0x00C0F574 \n"
 		"WaitForSingleObject = 0x00C0F524 \n"
 		" \n " //!; Start of selected range: 0x008704B0
-		
 		"cmp dword ptr [0x011FD23F], 0x1 \n" //BLOCK BASED ON THE VARIABLE
-		"jne run_input_check \n"
-		//"push 5000 \n"
-		//"push dword ptr [0x11FD253] \n"
-		//"call dword ptr [WaitForSingleObject] \n"
+		"jne run_input_check \n"		
+	);
+	input_tick++;
+	if((input_tick - init_tick) > 600)
+	{
+		if(!paused)
+		{
+			__asm__("mov dword ptr [0x011FD23F], 0xB \n");
+		}
+	}
+	__asm__
+	(	
 		"mov al, 0x1 \n"
 		"ret 0x4 \n"
 		"run_input_check: \n"
+	);
+	init_tick = input_tick;
+	__asm__
+	(	
 		
 		"push ebp \n " 
 		"mov ebp,esp \n " 
