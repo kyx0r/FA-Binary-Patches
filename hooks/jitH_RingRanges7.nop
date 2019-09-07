@@ -1,7 +1,0 @@
---baseVA=7EF0FA 
---offs=3EF0FA 
---arch=x86
- 
-jmp 12630462                            ; E9BFC84100
-nop                                     ; 90
-BYTES:E9BFC8410090

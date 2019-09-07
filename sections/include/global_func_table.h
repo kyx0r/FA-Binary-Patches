@@ -11,6 +11,7 @@ extern _DWORD sender_sock;
 extern _DWORD current_num_clients;
 extern _DWORD sync_buffer[17];
 extern bool paused;
+extern bool game_ended;
 
 void RangeRings();
 void GlobalRings();

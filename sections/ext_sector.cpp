@@ -30,8 +30,11 @@ int dec_IssueMove()
 	return Gft.IssueMove();
 }
 
+bool game_ended = false;
+
 void EndGame()
 {
+	game_ended = true;
 	__asm__("mov dword ptr [0x011FD23F], 0xB \n"); //remove block when last player remains.
 	__asm__
 	(

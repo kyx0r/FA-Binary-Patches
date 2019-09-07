@@ -109,6 +109,12 @@ __attribute__((noinline)) void timed_out()
 	return;
 }
 
+__attribute__((noinline)) void p_Version()
+{
+	((int (*)(const char* fmt, ...))_Logf)("Exe Version: 1.0 \n");
+	return;
+}
+
 __attribute__((noinline)) void xor_sync()
 {
 	register int eax asm("eax");
@@ -136,7 +142,7 @@ void SessionEndGame()
 		"WaitForSingleObject = 0x00C0F524 \n"
 	);
 
-	if(current_num_clients > 1 && current_num_clients < 17)
+	if(current_num_clients > 1 && current_num_clients < 17 && !game_ended)
 	{
 		__asm__
 		(	
@@ -653,6 +659,7 @@ void sim_dispatch()
 			terminated = 0;
 			p_index = 0;
 			sender_sock = 1;
+			game_ended = false;
 			if(!overflow)
 			{
 				update_pl_count = true;
@@ -879,6 +886,13 @@ void Update_Pipeline_Stream()
 		num_clients = eax;
 		if(update_pl_count)
 		{
+			__asm__ volatile
+			(
+				"call %[func]\n\t"
+				: 
+				: [func] "i" (&p_Version)
+				: "memory"
+			);				
 			current_num_clients = num_clients;
 			update_pl_count = false;
 		}
