@@ -6,6 +6,17 @@
 #pragma once
 typedef unsigned int uint;
 
+struct luaFuncDescReg
+{
+	void** RegisterFunc; // call for register lua function
+	char* FuncName; // lua name function
+	char* ClassName; // lua class name. <global> if class none
+	char* FuncDesc; // for log
+	luaFuncDescReg* PrevStruct; // reg calls the chain
+	void* FuncPtr; // code address
+	void* ClassPtr; // C++ class type address. NULL if class none
+}
+
 struct string
 {
 	// 0x1c bytes
@@ -78,8 +89,19 @@ struct gpg_mutex
 // LuaPlus
 struct lua_State
 {
-	int dummy;
+	void* unknown1;
+	void* unknown2;
+	lua_var* objects_end;
+	lua_var* objects_start; // 1 based index
+	// at 0x44
+	void* unknown1; // ptr to LuaState?
 };
+struct lua_var
+{
+	// 0x8 bytes
+	int type;
+	void* value;
+}
 struct LuaState
 {
 	lua_State* _lua_State;
@@ -148,7 +170,10 @@ struct moho_set
 #ifdef CXX_BUILD
 	void add(int item)
 	{
-		items_begin[item>>5] |= 1 << (item & 0x1f);
+		uint* itemPtr = &items_begin[item >> 5];
+		if (itemPtr >= items_end)
+			items_end += 1;
+		*itemPtr |= 1 << (item & 0x1f);
 	}
 
 	void remove(int item)
@@ -230,18 +255,25 @@ struct UserArmy
 
 	// at 0x20
 	string nickname;
-
-#ifndef FORGED_ALLIANCE
-	char datas[0xf4];
-#else
-	char datas[0xec];
-#endif
+	// at 0x3C
+	bool isCivilian;
+	#ifndef FORGED_ALLIANCE
+	char datas[0xf3];
+	#else
+	char datas[0xeb];
+	#endif
 	// at 0x130 Moho | at 0x128 FA
 	moho_set mValidCommandSources;
 	// at 0x148 FA
 	uint color;
+	uint iconColor;
+	string mArmyType; // 'human' for players
 	// at 0x16C FA
 	int faction;
+	// at 0x188 FA
+	bool showScore;
+	// at 0x1B8 FA
+	bool outOfGame;
 };
 struct SimArmy
 {
@@ -254,13 +286,21 @@ struct SimArmy
 	string name;
 	string nickname;
 
-	char datas[0xec];
+	// at 0x44
+	bool isCivilian;
+	// at 0xA4
+	void* GetUnitCapFunc;
+	void* SetUnitCapFunc;
+
+	char datas[0xe3];
 	// at 0x138 Moho | at 0x130 FA
 	moho_set mValidCommandSources;
 
 	// at 0x158 FA
-	string mArmyType; //? 'human' for players
+	string mArmyType; // 'human' for players
 
+	// at 0x1C0 FA
+	bool outOfGame;
 	// at 0x1C4 FA
 	struct
 	{
@@ -273,6 +313,8 @@ struct SimArmy
 	int unknown2;
 	// at 0x1F8 FA
 	string unknown5;
+	// at 0x270
+	float unitCap;
 #else
 	// Moho Code
 
@@ -347,7 +389,8 @@ struct CWldSession
 
 struct STIDriver // : ISTIDriver
 {
-	// 0x230 bytes
+	// at 0x0b0
+	int simFocusArmyIndex;
 };
 
 struct STIMap
