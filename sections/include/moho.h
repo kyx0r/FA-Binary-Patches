@@ -15,7 +15,7 @@ struct luaFuncDescReg
 	luaFuncDescReg* PrevStruct; // reg calls the chain
 	void* FuncPtr; // code address
 	void* ClassPtr; // C++ class type address. NULL if class none
-}
+};
 
 struct string
 {
@@ -101,7 +101,7 @@ struct lua_var
 	// 0x8 bytes
 	int type;
 	void* value;
-}
+};
 struct LuaState
 {
 	lua_State* _lua_State;
