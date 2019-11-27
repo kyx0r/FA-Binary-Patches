@@ -257,11 +257,11 @@ struct UserArmy
 	string nickname;
 	// at 0x3C
 	bool isCivilian;
-	#ifndef FORGED_ALLIANCE
+#ifndef FORGED_ALLIANCE
 	char datas[0xf3];
-	#else
+#else
 	char datas[0xeb];
-	#endif
+#endif
 	// at 0x130 Moho | at 0x128 FA
 	moho_set mValidCommandSources;
 	// at 0x148 FA
