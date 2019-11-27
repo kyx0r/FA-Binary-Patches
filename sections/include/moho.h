@@ -172,7 +172,7 @@ struct moho_set
 	{
 		uint* itemPtr = &items_begin[item >> 5];
 		if (itemPtr >= items_end)
-			items_end += 1;
+			items_end = itemPtr + 1;
 		*itemPtr |= 1 << (item & 0x1f);
 	}
 
