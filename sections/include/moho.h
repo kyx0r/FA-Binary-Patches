@@ -296,9 +296,12 @@ struct SimArmy
 	// at 0x138 Moho | at 0x130 FA
 	moho_set mValidCommandSources;
 
-	// at 0x158 FA
+	// at 0x150 FA
+	uint color;
+	uint iconColor;
 	string mArmyType; // 'human' for players
-
+	// at 0x174 FA
+	int faction;
 	// at 0x1C0 FA
 	bool outOfGame;
 	// at 0x1C4 FA
@@ -307,14 +310,25 @@ struct SimArmy
 		float funknown1;
 		float funknown2;
 	} float_struct;
+	// at 0x1D0
+	float noRushRadius;
+	float noRushOffsetX;
+	float noRushOffsetY;
+	
+	// at 0x1E8
+	void* Sim;
 
 	// at 0x1F0 FA
-	int unknown1;
-	int unknown2;
+	void* unknown1;
+	void* unknown2;
 	// at 0x1F8 FA
 	string unknown5;
 	// at 0x270
 	float unitCap;
+	// at 0x278
+	int pathCap_Land;
+	int pathCap_Sea;
+	int pathCap_Both;
 #else
 	// Moho Code
 
@@ -328,7 +342,10 @@ struct Sim
 	// 0xAF8 bytes
 
 #ifdef FORGED_ALLIANCE
-	char datas[0x90C];
+	// at 0x8C8
+	void* unknown1; // units?
+	void* unknown2;
+	char datas[0x904];
 	// at 0x91C Moho | at 0x90C FA
 	vector armies;// <class Moho::SimArmy *>
 	// at 0x93C Moho | at 0x92C FA
