@@ -86,6 +86,14 @@ struct gpg_mutex
 {
 	int vooodoo;
 };
+
+struct lua_var
+{
+	// 0x8 bytes
+	int type;
+	void* value;
+};
+
 // LuaPlus
 struct lua_State
 {
@@ -94,14 +102,9 @@ struct lua_State
 	lua_var* objects_end;
 	lua_var* objects_start; // 1 based index
 	// at 0x44
-	void* unknown1; // ptr to LuaState?
+	void* _unknown1; // ptr to LuaState?
 };
-struct lua_var
-{
-	// 0x8 bytes
-	int type;
-	void* value;
-};
+
 struct LuaState
 {
 	lua_State* _lua_State;

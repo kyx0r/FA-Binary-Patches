@@ -44,4 +44,5 @@
 #define MoveTo 0x12922a0
 #define AllUnitsMotionTick 0x1292430
 #define Unit_MotionTick 0x1292880
-#define MOHO_USER_INPUT 0x1292b90
+#define selectionPriority 0x1292b90
+#define MOHO_USER_INPUT 0x1292be0
