@@ -375,9 +375,8 @@ struct CWldSession
 	bool isReplay;
 	bool isBeingRecorded;
 	bool isMultiplayer;
-
 	// at 0x487
-	bool bool1; // set as true in Constructor.
+	bool allowObservers;
 
 	int focusArmyIndex; // focused army, -1 = observer
 
