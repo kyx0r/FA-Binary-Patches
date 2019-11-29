@@ -1,5 +1,5 @@
 //HOOK SetCommandSource ROffset = 0x00308A9A
-#include <stdlib.h>
+#include "../preprocessor/define.h"
 #include "../preprocessor/macro.h"
 
 __asm__
