@@ -1,4 +1,4 @@
-//HOOK SetCommandSource ROffset = 0x00E8B4AA
+//HOOK SetCommandSource ROffset = 0x00BDD4AA
 
 __asm__ volatile
 (   //0128B4AA SetCommandSource
@@ -13,17 +13,19 @@ __asm__ volatile
     "MOV EBX,[EAX+0x138] \n"
     "LEA EBX,[EDX*0x4+EBX] \n"
     "CMP EBX,[EAX+0x13C] \n"
-    "JB SHORT 0x0128B4E9 \n"
+    "JB L1 \n"
     "MOV DWORD PTR [EBX],0x0 \n"
     "ADD DWORD PTR [EAX+0x13C],0x4 \n"
+    "L1: \n"
     "AND CL,0x1F \n"
     "MOV EDX,0x1 \n"
     "SHL EDX,CL \n"
     "MOV EAX,0x1 \n"
     "CMP DWORD PTR [ESP+0x10],0x1 \n"  // set_or_unset
-    "JL SHORT 0x0128B502 \n"
+    "JL L2 \n"
     "OR [EBX],EDX \n"
     "RET \n"
+    "L2: \n"
     "NOT EDX \n"
     "AND [EBX],EDX \n"
     "RET \n"
