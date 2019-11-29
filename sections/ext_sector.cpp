@@ -29,16 +29,6 @@ luaFuncDescReg SSFARegDesc = {0x00E45E90,          // Std register func
 
 register int eax asm("eax");
 
-void print_hello_world()
-{
-	fd.Logf("Hello World!");
-}
-
-int dec_IssueMove()
-{
-	return Gft.IssueMove();
-}
-
 bool game_ended = false;
 
 void EndGame()
