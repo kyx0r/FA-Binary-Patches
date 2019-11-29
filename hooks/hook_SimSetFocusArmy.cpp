@@ -4,7 +4,7 @@
 
 __asm__
 (
-    ".equ reg_struct_address,"#SSFARegDesc" \n"
+    ".equ reg_struct_address,"QU(SSFARegDesc)" \n"
 );
 
 __asm__ volatile
