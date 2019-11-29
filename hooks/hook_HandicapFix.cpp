@@ -4,9 +4,9 @@ __asm__ volatile
 (   //0128B4AA SetCommandSource
     "MOV EAX,[0x10A63F0] \n"
     "MOV EAX,[EAX+0x910] \n"
-    "MOV ECX,[ESP+0x8] \n"
+    "MOV ECX,[ESP+0x8] \n"              // armyId
     "MOV EAX,[ECX*0x4+EAX] \n"
-    "MOV ECX,[ESP+0x0C] \n"
+    "MOV ECX,[ESP+0x0C] \n"             // sourceId
     "MOV EDX,ECX \n"
     "SHR EDX,0x5 \n"
     "SUB EDX,[EAX+0x130] \n"
@@ -20,7 +20,7 @@ __asm__ volatile
     "MOV EDX,0x1 \n"
     "SHL EDX,CL \n"
     "MOV EAX,0x1 \n"
-    "CMP DWORD PTR [ESP+0x10],0x1 \n"
+    "CMP DWORD PTR [ESP+0x10],0x1 \n"  // set_or_unset
     "JL SHORT 0x0128B502 \n"
     "OR [EBX],EDX \n"
     "RET \n"
@@ -30,4 +30,17 @@ __asm__ volatile
     ".align 128, 0x0 \n"
 );
 
+/*
+extern "C" int cxx_SetCommandSourceId(lua_state* lua, int armyId, int sourceId, bool set_or_unset)
+{
+	Sim* sim = g_Sim;
+	SimArmy* army = (SimArmy*)sim->armies[armyId];
 
+	if(set_or_unset)
+		army->mValidCommandSources.add(sourceId);
+	else
+		army->mValidCommandSources.remove(sourceId);
+	//lua_pushbool(lua, true);
+	return 1;
+}
+*/
