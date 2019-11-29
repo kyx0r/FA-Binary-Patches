@@ -18,7 +18,22 @@
 
 funcDefs fd;
 GFT Gft;
+
+static luaFuncDescReg SSFARegDesc = {0x00E45E90,          // Std register func
+                              0x00E43408,          // "SetFocusArmy"
+                              0x00E00D90,          // "<global>"
+                              0x00E451FC,          // "SetFocusArmy(armyIndex or -1)"
+                              0x010B8AE8,          // Prev reg desc: ArmyGetHandicap
+                              SimSetFocusArmy,     // Func ptr
+                              0x00000000};         // C++ class vtable ptr
+
 register int eax asm("eax");
+
+void SSFARegDescFunc()
+{
+	eax = &SSFARegDesc;
+	return;
+}
 
 void print_hello_world()
 {
