@@ -18,16 +18,11 @@ struct luaFuncDescReg
 };
 
 struct string
-{
-	// 0x1c bytes
+{       // 0x1c bytes
 	void* ptr1;
-	void* m_data; // SSO space start
-	void* ptr3;
-	void* ptr4;
-	void* ptr5;
-	void* ptr6;
-	// at 0x18
-	int size; // size < 0x10 => SSO
+	char[0x10] str; // DataPtr or used as memory for 'Short Set Optimization'
+	uint strLen;
+	uint size; // 0f if SSO, 1f not SSO
 
 #ifdef CXX_BUILD
 	const char* data()
@@ -67,6 +62,7 @@ struct list // probably not from visual c++, but made by gpg
 {
 	void* objects_start; // 0 if empty
 	void* objects_end;
+	void* objects_capacity_end;
 };
 
 typedef int SOCKET;
@@ -161,13 +157,13 @@ struct linked_list
 };
 struct moho_set
 {
-	int set_base; // integer_base >> 5 (bits in dword)
+	int baseIndex; // integer_base >> 5 (bits in dword)
 	int unknown2;
 	uint* items_begin;
 	uint* items_end;
 	uint* items_capacity_end;
 	void* unknown6;
-	void* unknown7; // Used as memory for Short Set 'Optimization'
+	uint value; // Used as memory for 'Short Set Optimization'
 	void* unknown8;
 
 #ifdef CXX_BUILD
@@ -351,6 +347,8 @@ struct Sim
 	char datas[0x904];
 	// at 0x91C Moho | at 0x90C FA
 	vector armies;// <class Moho::SimArmy *>
+	// at 0x920
+	list SSTICommandSources;
 	// at 0x93C Moho | at 0x92C FA
 	int ourCmdSource; // possibly just current in simulation.
 	// at 0x984 FA
@@ -384,7 +382,7 @@ struct CWldSession
 	char stuff[0x3ac];
 
 	// at 0x3f0
-	list /*?*/ armies; // <UserArmy*>
+	list armies; // <UserArmy*>
 
 	// at 0x470
 	vector cmdSources; // <SSTICommandSource>
@@ -418,12 +416,10 @@ struct STIMap
 };
 
 struct SSTICommandSource
-{
-	// 0x24 bytes
-
+{       // 0x24 bytes
 	int index;
 	string name;
-	int protocol;
+	int protocol; // -1 SinglePlayer, 3 MultiPlayer
 };
 
 struct CPushTask
