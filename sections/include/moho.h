@@ -156,7 +156,7 @@ struct linked_list
 	void* not_sure;
 };
 struct moho_set
-{
+{       // 0x20 bytes
 	int baseIndex; // integer_base >> 5 (bits in dword)
 	int unknown2;
 	uint* items_begin;
@@ -279,8 +279,10 @@ struct SimArmy
 #ifdef FORGED_ALLIANCE
 	// Forged Alliance Code
 	void* vtable;
-	int unknown3;
+	// at 0xC8
+	moho_set neutrals;
 	moho_set allies;
+	moho_set enemies;
 
 	string name;
 	string nickname;
@@ -291,7 +293,7 @@ struct SimArmy
 	void* GetUnitCapFunc;
 	void* SetUnitCapFunc;
 
-	char datas[0xe3];
+	char datas[0x8b];
 	// at 0x138 Moho | at 0x130 FA
 	moho_set mValidCommandSources;
 
