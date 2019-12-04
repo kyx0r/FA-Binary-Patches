@@ -280,7 +280,7 @@ struct SimArmy
 	// Forged Alliance Code
 	void* vtable;
 	int unknown3;
-	int unknown4;
+	moho_set allies;
 
 	string name;
 	string nickname;
