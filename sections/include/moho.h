@@ -59,7 +59,7 @@ struct vector
 
 struct list // probably not from visual c++, but made by gpg
 // considering, it's not capacity based, probably made by gpg
-{
+{       // 0x0C bytes
 	void* objects_start; // 0 if empty
 	void* objects_end;
 	void* objects_capacity_end;
