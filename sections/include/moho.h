@@ -316,6 +316,7 @@ struct SimArmy
 	
 	// at 0x1E8
 	void* Sim;
+	void* aiBrain;
 
 	// at 0x1F0 FA
 	void* unknown1;
