@@ -256,10 +256,12 @@ struct UserArmy
 	string nickname;
 	// at 0x3C
 	bool isCivilian;
+	// at 0xB8
+	bool isResourceSharing;
 #ifndef FORGED_ALLIANCE
-	char datas[0xf3];
+	char datas[0xf2];
 #else
-	char datas[0xeb];
+	char datas[0xea];
 #endif
 	// at 0x130 Moho | at 0x128 FA
 	moho_set mValidCommandSources;
@@ -292,8 +294,10 @@ struct SimArmy
 	// at 0xA4
 	void* GetUnitCapFunc;
 	void* SetUnitCapFunc;
+	// at 0xC0
+	bool isResourceSharing; // Copy from [[self+1F4]+54]
 
-	char datas[0x8b];
+	char datas[0x8a];
 	// at 0x138 Moho | at 0x130 FA
 	moho_set mValidCommandSources;
 
