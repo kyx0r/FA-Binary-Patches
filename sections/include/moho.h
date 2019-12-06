@@ -18,16 +18,11 @@ struct luaFuncDescReg
 };
 
 struct string
-{
-	// 0x1c bytes
+{       // 0x1c bytes
 	void* ptr1;
-	void* m_data; // SSO space start
-	void* ptr3;
-	void* ptr4;
-	void* ptr5;
-	void* ptr6;
-	// at 0x18
-	int size; // size < 0x10 => SSO
+	char[0x10] str; // DataPtr or used as memory for 'Short Set Optimization'
+	uint strLen;
+	uint size; // 0f if SSO, 1f not SSO
 
 #ifdef CXX_BUILD
 	const char* data()
@@ -64,9 +59,10 @@ struct vector
 
 struct list // probably not from visual c++, but made by gpg
 // considering, it's not capacity based, probably made by gpg
-{
+{       // 0x0C bytes
 	void* objects_start; // 0 if empty
 	void* objects_end;
+	void* objects_capacity_end;
 };
 
 typedef int SOCKET;
@@ -160,14 +156,14 @@ struct linked_list
 	void* not_sure;
 };
 struct moho_set
-{
-	int set_base; // integer_base >> 5 (bits in dword)
+{       // 0x20 bytes
+	int baseIndex; // integer_base >> 5 (bits in dword)
 	int unknown2;
 	uint* items_begin;
 	uint* items_end;
 	uint* items_capacity_end;
 	void* unknown6;
-	void* unknown7; // Used as memory for Short Set 'Optimization'
+	uint value; // Used as memory for 'Short Set Optimization'
 	void* unknown8;
 
 #ifdef CXX_BUILD
@@ -260,10 +256,12 @@ struct UserArmy
 	string nickname;
 	// at 0x3C
 	bool isCivilian;
+	// at 0xB8
+	bool isResourceSharing;
 #ifndef FORGED_ALLIANCE
-	char datas[0xf3];
+	char datas[0xf2];
 #else
-	char datas[0xeb];
+	char datas[0xea];
 #endif
 	// at 0x130 Moho | at 0x128 FA
 	moho_set mValidCommandSources;
@@ -283,8 +281,10 @@ struct SimArmy
 #ifdef FORGED_ALLIANCE
 	// Forged Alliance Code
 	void* vtable;
-	int unknown3;
-	int unknown4;
+	// at 0xC8
+	moho_set neutrals;
+	moho_set allies;
+	moho_set enemies;
 
 	string name;
 	string nickname;
@@ -294,8 +294,10 @@ struct SimArmy
 	// at 0xA4
 	void* GetUnitCapFunc;
 	void* SetUnitCapFunc;
+	// at 0xC0
+	bool isResourceSharing; // Copy from [[self+1F4]+54]
 
-	char datas[0xe3];
+	char datas[0x8a];
 	// at 0x138 Moho | at 0x130 FA
 	moho_set mValidCommandSources;
 
@@ -320,6 +322,7 @@ struct SimArmy
 	
 	// at 0x1E8
 	void* Sim;
+	void* aiBrain;
 
 	// at 0x1F0 FA
 	void* unknown1;
@@ -351,6 +354,8 @@ struct Sim
 	char datas[0x904];
 	// at 0x91C Moho | at 0x90C FA
 	vector armies;// <class Moho::SimArmy *>
+	// at 0x920
+	list SSTICommandSources;
 	// at 0x93C Moho | at 0x92C FA
 	int ourCmdSource; // possibly just current in simulation.
 	// at 0x984 FA
@@ -384,7 +389,7 @@ struct CWldSession
 	char stuff[0x3ac];
 
 	// at 0x3f0
-	list /*?*/ armies; // <UserArmy*>
+	list armies; // <UserArmy*>
 
 	// at 0x470
 	vector cmdSources; // <SSTICommandSource>
@@ -418,12 +423,10 @@ struct STIMap
 };
 
 struct SSTICommandSource
-{
-	// 0x24 bytes
-
+{       // 0x24 bytes
 	int index;
 	string name;
-	int protocol;
+	int protocol; // -1 SinglePlayer, 3 MultiPlayer
 };
 
 struct CPushTask
