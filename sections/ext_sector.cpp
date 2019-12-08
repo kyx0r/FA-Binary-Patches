@@ -19,11 +19,19 @@
 funcDefs fd;
 GFT Gft;
 
+luaFuncDescReg SSIRRegDesc = {0x00E45E90,          // Std register func
+                              0x00E4AFBC,          // "SessionIsReplay"
+                              0x00E00D90,          // "<global>"
+                              0x00E4AF84,          // "Return true if the active session is a replay session."
+                              0x010B8AE8,          // Prev reg desc: ArmyGetHandicap
+                              SessionIsReplay,     // Func ptr
+                              0x00000000};         // C++ class vtable ptr
+
 luaFuncDescReg SSFARegDesc = {0x00E45E90,          // Std register func
                               0x00E43408,          // "SetFocusArmy"
                               0x00E00D90,          // "<global>"
                               0x00E451FC,          // "SetFocusArmy(armyIndex or -1)"
-                              0x010B8AE8,          // Prev reg desc: ArmyGetHandicap
+                              &SSIRRegDesc,         // Prev reg desc: SSIRRegDesc
                               SimSetFocusArmy,     // Func ptr
                               0x00000000};         // C++ class vtable ptr
 
