@@ -20,7 +20,7 @@ struct luaFuncDescReg
 struct string
 {       // 0x1c bytes
 	void* ptr1;
-	char[0x10] str; // DataPtr or used as memory for 'Short Set Optimization'
+	char str[0x10]; // DataPtr or used as memory for 'Short Set Optimization'
 	uint strLen;
 	uint size; // 0f if SSO, 1f not SSO
 
