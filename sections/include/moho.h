@@ -238,7 +238,7 @@ struct SWldSessionInfo
 	int unknown4; // = 255 possibly cmdSourceIndex
 };
 struct SimArmyEconomyInfo
-{	//0x60
+{	// 0x60 bytes
 	void* unknown1;
 	int unknown2;
 	float incomeEnergy;     // div 10
@@ -318,7 +318,7 @@ struct UserArmy
 	bool outOfGame;
 };
 struct SimArmy
-{	//0x288
+{	// 0x288 bytes
 #ifdef FORGED_ALLIANCE
 	// Forged Alliance Code
 	void* vtable;
