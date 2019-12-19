@@ -241,23 +241,23 @@ struct SimArmyEconomyInfo
 {	//0x60
 	void* unknown1;
 	int unknown2;
-	float incomyEnergy;
-	float incomyMass;
+	float incomeEnergy;     // div 10
+	float incomeMass;       // div 10
 	
-	float baseIncomyEnergy;
-	float baseIncomyMass;
+	float baseIncomeEnergy; // div 10
+	float baseIncomeMass;   // div 10
 	float storedEnergy;
 	float storedMass;
 	
-	float incomyEnergy;
-	float incomyMass;
+	float incomeEnergy;     // div 10
+	float incomeMass;       // div 10
 	float reclaimedEnergy;
 	float reclaimedMass;
 	
-	float requestedMass;
-	float requestedEnergy;
-	float lossMass;
-	float lossEnergy;
+	float requestedMass;    // div 10
+	float requestedEnergy;  // div 10
+	float lossMass;         // div 10
+	float lossEnergy;       // div 10
 	
 	uint maxEnergy;
 	int unknown3;
@@ -279,12 +279,32 @@ struct UserArmy
 	string nickname;
 	// at 0x3C
 	bool isCivilian;
-	// at 0xB8
+	// at 0x80
+	float baseIncomeEnergy; // div 10
+	float baseIncomeMass;   // div 10
+	float storedEnergy;
+	float storedMass;
+	
+	float incomeEnergy;     // div 10
+	float incomeMass;       // div 10
+	float reclaimedEnergy;
+	float reclaimedMass;
+	
+	float requestedMass;    // div 10
+	float requestedEnergy;  // div 10
+	float lossMass;         // div 10
+	float lossEnergy;       // div 10
+	
+	uint maxEnergy;
+	int unknown3;
+	uint maxMass;
+	int unknown4;
+
 	bool isResourceSharing;
 #ifndef FORGED_ALLIANCE
-	char datas[0xf2];
+	char datas[0xb2];
 #else
-	char datas[0xea];
+	char datas[0xaa];
 #endif
 	// at 0x130 Moho | at 0x128 FA
 	moho_set mValidCommandSources;
@@ -322,7 +342,7 @@ struct SimArmy
 	moho_set enemies;
 	
 	char datas[0x8a];
-	// at 0x138 Moho | at 0x130 FA
+	// at 0x130 FA
 	moho_set mValidCommandSources;
 
 	// at 0x150 FA
@@ -360,9 +380,7 @@ struct SimArmy
 	int pathCap_Sea;
 	int pathCap_Both;
 #else
-	// Moho Code
-
-	// at 0x138 Moho | at 0x130 FA
+	// at 0x138 Moho
 	moho_set mValidCommandSources;
 #endif
 };
