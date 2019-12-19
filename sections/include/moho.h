@@ -280,8 +280,6 @@ struct UserArmy
 	// at 0x3C
 	bool isCivilian;
 	// at 0x80
-	float baseIncomeEnergy; // div 10
-	float baseIncomeMass;   // div 10
 	float storedEnergy;
 	float storedMass;
 	
@@ -302,9 +300,9 @@ struct UserArmy
 
 	bool isResourceSharing;
 #ifndef FORGED_ALLIANCE
-	char datas[0xb2];
+	char datas[0xba];
 #else
-	char datas[0xaa];
+	char datas[0xb2];
 #endif
 	// at 0x130 Moho | at 0x128 FA
 	moho_set mValidCommandSources;
@@ -324,24 +322,41 @@ struct SimArmy
 #ifdef FORGED_ALLIANCE
 	// Forged Alliance Code
 	void* vtable;
+	// at 0xA4 in vtable
+	//void* GetUnitCapFunc;
+	//void* SetUnitCapFunc;
 
 	string name;
 	string nickname;
 
 	// at 0x44
 	bool isCivilian;
-	// at 0xA4
-	void* GetUnitCapFunc;
-	void* SetUnitCapFunc;
-	// at 0xC0
-	bool isResourceSharing; // Copy from [[self+1F4]+54]
-
+	// at 0x88 Copy from [[self+1F4]+18]
+	float storedEnergy;
+	float storedMass;
+	
+	float incomeEnergy;     // div 10
+	float incomeMass;       // div 10
+	float reclaimedEnergy;
+	float reclaimedMass;
+	
+	float requestedMass;    // div 10
+	float requestedEnergy;  // div 10
+	float lossMass;         // div 10
+	float lossEnergy;       // div 10
+	
+	uint maxEnergy;
+	int unknown3;
+	uint maxMass;
+	int unknown4;
+	
+	bool isResourceSharing;
 	// at 0xC8
 	moho_set neutrals;
 	moho_set allies;
 	moho_set enemies;
 	
-	char datas[0x8a];
+	char datas[0x52];
 	// at 0x130 FA
 	moho_set mValidCommandSources;
 
