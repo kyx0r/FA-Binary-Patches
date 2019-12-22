@@ -72,7 +72,7 @@ struct Stream
 
 struct PipeStream // : Stream
 {	// 0x48 bytes
-	char iDontSeeANeedToKnowTheStructure[0x48];
+	//
 };
 
 struct gpg_mutex
@@ -297,7 +297,6 @@ struct UserArmy
 	int unknown3;
 	uint maxMass;
 	int unknown4;
-
 	bool isResourceSharing;
 #ifndef FORGED_ALLIANCE
 	char datas[0xba];
@@ -349,7 +348,6 @@ struct SimArmy
 	int unknown3;
 	uint maxMass;
 	int unknown4;
-	
 	bool isResourceSharing;
 	// at 0xC8
 	moho_set neutrals;
@@ -461,7 +459,10 @@ struct CWldSession
 	int focusArmyIndex; // focused army, -1 = observer
 
 	bool isGameOver;
-
+	// at 0x4b4
+	float mouseWorldPosX;
+	float mouseWorldPosY;
+	float mouseWorldPosZ;
 	// at 0x4d4
 	bool cheatsEnabled;
 };
