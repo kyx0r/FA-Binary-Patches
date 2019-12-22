@@ -1,8 +1,5 @@
-/**
-  MohoEngine.dll Disassembling notes
-*/
+//MohoEngine.dll Disassembling notes
 
-// Nothing here is concrete.
 #pragma once
 typedef unsigned int uint;
 
@@ -72,10 +69,10 @@ struct Stream
 {
 
 };
+
 struct PipeStream // : Stream
-{
-	// 0x48 bytes
-	char iDontSeeANeedToKnowTheStructure[0x48];
+{	// 0x48 bytes
+	//
 };
 
 struct gpg_mutex
@@ -84,8 +81,7 @@ struct gpg_mutex
 };
 
 struct lua_var
-{
-	// 0x8 bytes
+{	// 0x8 bytes
 	int type;
 	void* value;
 };
@@ -100,7 +96,6 @@ struct lua_State
 	// at 0x44
 	void* _unknown1; // ptr to LuaState?
 };
-
 struct LuaState
 {
 	lua_State* _lua_State;
@@ -111,14 +106,12 @@ struct LuaState
 
 };
 struct LuaStackObject
-{
-	// 0x8 bytes
+{	// 0x8 bytes
 	LuaState* state;
 	int stack_index;
 };
 struct LuaObject
-{
-	// 0x14 bytes
+{	// 0x14 bytes
 
 	void* unknown1; // objects_end?
 	void* unknown2; // objects_start?
@@ -188,8 +181,7 @@ struct moho_set
 };
 
 struct Unknown1 // from WLD_SetupSessionInfo
-{
-	// 0xA4 bytes
+{	// 0xA4 bytes
 	void* vtable;
 
 	void* self1;
@@ -229,8 +221,7 @@ struct CWldMap
 };
 
 struct SWldSessionInfo
-{
-	// 0x30 bytes
+{	// 0x30 bytes
 	string map_name;
 
 	// at 0x1C
@@ -246,6 +237,38 @@ struct SWldSessionInfo
 	IClientManager* clientManager;
 	int unknown4; // = 255 possibly cmdSourceIndex
 };
+struct SimArmyEconomyInfo
+{	// 0x60 bytes
+	void* unknown1;
+	int unknown2;
+	float incomeEnergy;     // div 10
+	float incomeMass;       // div 10
+	
+	float baseIncomeEnergy; // div 10
+	float baseIncomeMass;   // div 10
+	float storedEnergy;
+	float storedMass;
+	
+	float incomeEnergy;     // div 10
+	float incomeMass;       // div 10
+	float reclaimedEnergy;
+	float reclaimedMass;
+	
+	float requestedMass;    // div 10
+	float requestedEnergy;  // div 10
+	float lossMass;         // div 10
+	float lossEnergy;       // div 10
+	
+	uint maxEnergy;
+	int unknown3;
+	uint maxMass;
+	int unknown4;
+	
+	float unknown5;
+	uint isResourceSharing;
+	float unknown6;
+	float unknown7;
+};
 struct UserArmy
 {
 	void* unknown1; // vtable?
@@ -256,12 +279,29 @@ struct UserArmy
 	string nickname;
 	// at 0x3C
 	bool isCivilian;
-	// at 0xB8
+	// at 0x80
+	float storedEnergy;
+	float storedMass;
+	
+	float incomeEnergy;     // div 10
+	float incomeMass;       // div 10
+	float reclaimedEnergy;
+	float reclaimedMass;
+	
+	float requestedMass;    // div 10
+	float requestedEnergy;  // div 10
+	float lossMass;         // div 10
+	float lossEnergy;       // div 10
+	
+	uint maxEnergy;
+	int unknown3;
+	uint maxMass;
+	int unknown4;
 	bool isResourceSharing;
 #ifndef FORGED_ALLIANCE
-	char datas[0xf2];
+	char datas[0xba];
 #else
-	char datas[0xea];
+	char datas[0xb2];
 #endif
 	// at 0x130 Moho | at 0x128 FA
 	moho_set mValidCommandSources;
@@ -277,28 +317,45 @@ struct UserArmy
 	bool outOfGame;
 };
 struct SimArmy
-{
+{	// 0x288 bytes
 #ifdef FORGED_ALLIANCE
 	// Forged Alliance Code
 	void* vtable;
-	// at 0xC8
-	moho_set neutrals;
-	moho_set allies;
-	moho_set enemies;
+	// at 0xA4 in vtable
+	//void* GetUnitCapFunc;
+	//void* SetUnitCapFunc;
 
 	string name;
 	string nickname;
 
 	// at 0x44
 	bool isCivilian;
-	// at 0xA4
-	void* GetUnitCapFunc;
-	void* SetUnitCapFunc;
-	// at 0xC0
-	bool isResourceSharing; // Copy from [[self+1F4]+54]
-
-	char datas[0x8a];
-	// at 0x138 Moho | at 0x130 FA
+	// at 0x88 Copy from [[self+1F4]+18]
+	float storedEnergy;
+	float storedMass;
+	
+	float incomeEnergy;     // div 10
+	float incomeMass;       // div 10
+	float reclaimedEnergy;
+	float reclaimedMass;
+	
+	float requestedMass;    // div 10
+	float requestedEnergy;  // div 10
+	float lossMass;         // div 10
+	float lossEnergy;       // div 10
+	
+	uint maxEnergy;
+	int unknown3;
+	uint maxMass;
+	int unknown4;
+	bool isResourceSharing;
+	// at 0xC8
+	moho_set neutrals;
+	moho_set allies;
+	moho_set enemies;
+	
+	char datas[0x52];
+	// at 0x130 FA
 	moho_set mValidCommandSources;
 
 	// at 0x150 FA
@@ -326,7 +383,7 @@ struct SimArmy
 
 	// at 0x1F0 FA
 	void* unknown1;
-	void* unknown2;
+	SimArmyEconomyInfo* EconomyInfo;
 	// at 0x1F8 FA
 	string unknown5;
 	// at 0x270
@@ -336,16 +393,13 @@ struct SimArmy
 	int pathCap_Sea;
 	int pathCap_Both;
 #else
-	// Moho Code
-
-	// at 0x138 Moho | at 0x130 FA
+	// at 0x138 Moho
 	moho_set mValidCommandSources;
 #endif
 };
 
 struct Sim
-{
-	// 0xAF8 bytes
+{	// 0xAF8 bytes
 
 #ifdef FORGED_ALLIANCE
 	// at 0x8C8
@@ -364,8 +418,7 @@ struct Sim
 #endif
 };
 struct CWldSession
-{
-	// 0x508 bytes
+{	// 0x508 bytes
 	// Information about values is from constructor.
 
 	CWldSession* self1; // = this
@@ -406,7 +459,10 @@ struct CWldSession
 	int focusArmyIndex; // focused army, -1 = observer
 
 	bool isGameOver;
-
+	// at 0x4b4
+	float mouseWorldPosX;
+	float mouseWorldPosY;
+	float mouseWorldPosZ;
 	// at 0x4d4
 	bool cheatsEnabled;
 };
