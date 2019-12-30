@@ -35,8 +35,6 @@ void Conexecute();
 void sim_dispatch();
 void Update_Pipeline_Stream();
 void EndGame();
-void SimSetFocusArmy();
-void SessionIsReplay();
 
 class GFT
 {

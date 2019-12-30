@@ -72,7 +72,7 @@ struct Stream
 
 struct PipeStream // : Stream
 {	// 0x48 bytes
-	//
+
 };
 
 struct gpg_mutex
@@ -80,30 +80,52 @@ struct gpg_mutex
 	int vooodoo;
 };
 
+//LuaPlus
 struct lua_var
 {	// 0x8 bytes
 	int type;
 	void* value;
+
+	/* Types:
+		-1 - None
+		0 - Nil
+		1 - Boolean
+		2 - LightUserData || UserData
+		3 - Number || Integer
+		4 - String
+		5 - Table
+		6 - CFunction
+		7 - Function
+		8 - UserData
+		9 - NumTags?
+	*/
 };
 
-// LuaPlus
-struct lua_State
+struct lua_State // www.lua.org/source/5.0/lstate.h.html#lua_State
 {
 	void* unknown1;
 	void* unknown2;
 	lua_var* objects_end;
 	lua_var* objects_start; // 1 based index
+	void* global_State;     // ?
+	void* callInfo;         // ?
+	lua_var* stack_last;
+	lua_var* stack;
+	int stacksize;          // numVars
 	// at 0x44
-	void* _unknown1; // ptr to LuaState?
+	void* LuaState;         // ?
 };
+struct LuaObject;
 struct LuaState
-{
-	lua_State* _lua_State;
+{	// 0x28 bytes ?
+	lua_State* lua_State;
 	void* unknown1;
 	void* unknown2;
 	void* unknown3;
 	void* important1;
-
+	// at 0x20
+	LuaState* self;
+	LuaObject* prev;
 };
 struct LuaStackObject
 {	// 0x8 bytes
@@ -112,25 +134,10 @@ struct LuaStackObject
 };
 struct LuaObject
 {	// 0x14 bytes
-
-	void* unknown1; // objects_end?
-	void* unknown2; // objects_start?
+	LuaObject* prev;
+	LuaObject* next;
 	LuaState* m_state;
-	int type;
-	void* unknown5; // n_objects??
-
-	/* Types:
-		-1 - None
-		0 - Nil
-		1 - Boolean
-		2 - LightUserData // || UserData
-		3 - Number // || Integer
-		4 - String
-		5 - Table
-		6 - CFunction
-		7 - Function
-		8 - UserData
-	*/
+	lua_var value;
 };
 
 // Moho
@@ -179,13 +186,16 @@ struct moho_set
 	}
 #endif
 };
-
-struct Unknown1 // from WLD_SetupSessionInfo
+struct RRuleGameRules
+{	// 0xD0 bytes
+	void* vtable;
+};
+struct LaunchInfoNew
 {	// 0xA4 bytes
 	void* vtable;
 
-	void* self1;
-	void* self2;
+	RRuleGameRules* rules;
+	void* STIMap;
 
 	// at 0xC
 	string lua_gameMods;
@@ -208,31 +218,43 @@ struct IClientManager
 {
 	void* vtable;
 };
-
-struct RRuleGameRules
-{
-	int dummy;
-};
 struct CWldMap
 {
 	void* zero1;
 	void* zero2;
 	void* zero3;
 };
+struct Deposit
+{	// 0x14 bytes
+	int X1,Z1,X2,Z2; // Rect
+	int Type; // 1 - Mass, 2 - Energy
+};
+struct CSimResources
+{	// 0x1C bytes
+	void* vtable;
+	// at 0x8 in vtable
+	// ecx:CreateResourceDeposit(type, x, y, z, size)
+	// at 0x28 in vtable
+	// ecx:FindResourceDeposit(PtrPosXZ, PtrResultXZ, Radius, Type):Bool
 
+	// at 0x10
+	list Deposits; // <Deposit*>
+};
 struct SWldSessionInfo
 {	// 0x30 bytes
 	string map_name;
 
 	// at 0x1C
-	int unknown1;
+	void* LaunchInfoNew;
 
 	// at 0x20
 	int unknown2;
-	bool b1; // = true
-	bool b2;
-	bool b3;
+	bool isBeingRecorded;
+	bool isReplay;
+	bool isMultiplayer;
 	char _pad1;
+	// at 0x2C
+	int ourCmdSource;
 
 	IClientManager* clientManager;
 	int unknown4; // = 255 possibly cmdSourceIndex
@@ -241,8 +263,8 @@ struct SimArmyEconomyInfo
 {	// 0x60 bytes
 	void* unknown1;
 	int unknown2;
-	float incomeEnergy;     // div 10
-	float incomeMass;       // div 10
+	float _incomeEnergy;    // div 10
+	float _incomeMass;      // div 10
 	
 	float baseIncomeEnergy; // div 10
 	float baseIncomeMass;   // div 10
@@ -270,8 +292,8 @@ struct SimArmyEconomyInfo
 	float unknown7;
 };
 struct UserArmy
-{
-	void* unknown1; // vtable?
+{	// 0x210 bytes
+	void* unknown1;
 
 	string name;
 
@@ -294,9 +316,9 @@ struct UserArmy
 	float lossEnergy;       // div 10
 	
 	uint maxEnergy;
-	int unknown3;
+	int unknown3; // =0
 	uint maxMass;
-	int unknown4;
+	int unknown4; // =0
 	bool isResourceSharing;
 #ifndef FORGED_ALLIANCE
 	char datas[0xba];
@@ -319,11 +341,10 @@ struct UserArmy
 struct SimArmy
 {	// 0x288 bytes
 #ifdef FORGED_ALLIANCE
-	// Forged Alliance Code
 	void* vtable;
 	// at 0xA4 in vtable
-	//void* GetUnitCapFunc;
-	//void* SetUnitCapFunc;
+	//void* GetUnitCap;
+	//void* SetUnitCap;
 
 	string name;
 	string nickname;
@@ -345,9 +366,9 @@ struct SimArmy
 	float lossEnergy;       // div 10
 	
 	uint maxEnergy;
-	int unknown3;
+	int unknown3; // =0
 	uint maxMass;
-	int unknown4;
+	int unknown4; // =0
 	bool isResourceSharing;
 	// at 0xC8
 	moho_set neutrals;
@@ -369,9 +390,9 @@ struct SimArmy
 	// at 0x1C4 FA
 	struct
 	{
-		float funknown1;
-		float funknown2;
-	} float_struct;
+		float X;
+		float Z;
+	} StartPosition;
 	// at 0x1D0
 	float noRushRadius;
 	float noRushOffsetX;
@@ -379,10 +400,10 @@ struct SimArmy
 	
 	// at 0x1E8
 	void* Sim;
-	void* aiBrain;
+	void* CAiBrain;
 
 	// at 0x1F0 FA
-	void* unknown1;
+	void* CAiReconDBImpl;
 	SimArmyEconomyInfo* EconomyInfo;
 	// at 0x1F8 FA
 	string unknown5;
@@ -400,12 +421,14 @@ struct SimArmy
 
 struct Sim
 {	// 0xAF8 bytes
-
+	void* vtable;
 #ifdef FORGED_ALLIANCE
 	// at 0x8C8
-	void* unknown1; // units?
-	void* unknown2;
-	char datas[0x904];
+	RRuleGameRules* rules; // from STIDriver.LaunchInfoNew
+	void* STIMap;          // from STIDriver.LaunchInfoNew
+	CSimResources* Deposits;
+	// at 0x904
+	void* unknown1; // 0x9CC bytes
 	// at 0x91C Moho | at 0x90C FA
 	vector armies;// <class Moho::SimArmy *>
 	// at 0x920
@@ -435,15 +458,16 @@ struct CWldSession
 	CWldMap* map;
 
 	// at 0x20
-	void* zero2;
-	void* zero3;
+	void* LaunchInfoNew;
+	void* zero3; // .?AV?$sp_counted_impl_p@ULaunchInfoNew@Moho@@@detail@boost@@
 	string map_name;
 
 	char stuff[0x3ac];
 
 	// at 0x3f0
 	list armies; // <UserArmy*>
-
+	// at 0x424
+	CSimResources* Deposits;
 	// at 0x470
 	vector cmdSources; // <SSTICommandSource>
 
@@ -453,7 +477,6 @@ struct CWldSession
 	bool isReplay;
 	bool isBeingRecorded;
 	bool isMultiplayer;
-	// at 0x487
 	bool allowObservers;
 
 	int focusArmyIndex; // focused army, -1 = observer
@@ -468,14 +491,17 @@ struct CWldSession
 };
 
 struct STIDriver // : ISTIDriver
-{
-	// at 0x0b0
+{	// 0x230 bytes
+	void* vtable;
+	// at 0x10
+	void* LaunchInfoNew; // from g_SWldSessionInfo
+	// at 0xb0
 	int simFocusArmyIndex;
 };
 
 struct STIMap
-{
-	// 0x1548 bytes
+{	// 0x1548 bytes
+
 };
 
 struct SSTICommandSource
@@ -497,8 +523,7 @@ struct INetConnector
 	void* vtable;
 };
 struct CLobby
-{
-	// 0xC8 bytes
+{	// 0xC8 bytes
 
 	// at 0x20
 	LuaObject unknown0;
@@ -534,8 +559,7 @@ struct CLobby
 
 /// Tres Importante
 struct sub_10392B10_ret
-{
-	// 0x20 bytes
+{	// 0x20 bytes
 
 	void* zero1; // self in CLobbyPeer.unknown2
 	void* zero2; // self in CLobbyPeer.unknown2
@@ -547,8 +571,8 @@ struct sub_10392B10_ret
 	char zero4; // 1 in CLobbyPeer.unknown2
 };
 struct CLobbyPeer
-{
-	// 0x50 bytes
+{	// 0x50 bytes
+
 	CLobbyPeer* next; // Doubly linked list pointers
 	CLobbyPeer* prev;
 
@@ -584,8 +608,7 @@ struct CLobbyPeer
 };
 
 struct CClientManagerImpl // : IClientManager
-{
-	// 0x184D0 bytes
+{	// 0x184D0 bytes
 	void* vtable;
 
 	// at 0x40C
@@ -610,8 +633,7 @@ struct CClientManagerImpl // : IClientManager
 };
 
 struct CClientBase // : IClient
-{
-	// 0xD8 bytes
+{	// 0xD8 bytes
 	void* vtable;
 	string mNickname;
 	// at 0x20
