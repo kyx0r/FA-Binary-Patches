@@ -19,21 +19,51 @@
 funcDefs fd;
 GFT Gft;
 
-luaFuncDescReg SSIRRegDesc = {0x00E45E90,          // Std register func
-                              0x00E4AFBC,          // "SessionIsReplay"
-                              0x00E00D90,          // "<global>"
-                              0x00E4AF84,          // "Return true if the active session is a replay session."
-                              0x010B8AE8,          // Prev reg desc: ArmyGetHandicap
-                              SessionIsReplay,     // Func ptr
-                              0x00000000};         // C++ class vtable ptr
+void SimSessionIsReplay();
+luaFuncDescReg SSIRRegDesc =  {0x00E45E90,          // Std register func
+                               0x00E4AFBC,          // "SessionIsReplay"
+                               0x00E00D90,          // "<global>"
+                               0x00E4AF84,          // "Return true if the active session is a replay session."
+                               0x010B8AE8,          // Prev reg desc: ArmyGetHandicap
+                               SimSessionIsReplay,  // Func ptr
+                               0x00000000};         // C++ class vtable ptr
 
-luaFuncDescReg SSFARegDesc = {0x00E45E90,          // Std register func
-                              0x00E43408,          // "SetFocusArmy"
-                              0x00E00D90,          // "<global>"
-                              0x00E451FC,          // "SetFocusArmy(armyIndex or -1)"
-                              &SSIRRegDesc,         // Prev reg desc: SSIRRegDesc
-                              SimSetFocusArmy,     // Func ptr
-                              0x00000000};         // C++ class vtable ptr
+void SimSetCommandSource();
+luaFuncDescReg SSCSRegDesc =  {0x00E45E90,
+                               "SetCommandSource",
+                               0x00E00D90,
+                               "(targetArmyIndex, sourceHumanIndex, Set or Unset)",
+                               &SSIRRegDesc,
+                               SimSetCommandSource,
+                               0x00000000};
+
+#define s_GDAPName "GetDepositsAroundPoint"
+#define s_GDAPDesc "(X, Z, Radius, Type)"
+void SimGetDepositsAroundPoint();
+luaFuncDescReg SGDAPRegDesc = {0x00E45E90,
+                               s_GDAPName,
+                               0x00E00D90,
+                               s_GDAPDesc,
+                               &SSCSRegDesc,
+                               SimGetDepositsAroundPoint,
+                               0x00000000};
+
+void SimSetFocusArmy();
+luaFuncDescReg SSFARegDesc =  {0x00E45E90,          // Std register func
+                               0x00E43408,          // "SetFocusArmy"
+                               0x00E00D90,          // "<global>"
+                               0x00E451FC,          // "SetFocusArmy(armyIndex or -1)"
+                               &SGDAPRegDesc,       // Prev reg desc: SFDRegDesc
+                               SimSetFocusArmy,     // Func ptr
+                               0x00000000};         // C++ class vtable ptr
+
+luaFuncDescReg UGDAPRegDesc = {0x00E45E90,
+                               s_GDAPName,
+                               0x00E00D90,
+                               s_GDAPDesc,
+                               0x010C3CA4,          // Prev reg desc: SetFocusArmy
+                               SimGetDepositsAroundPoint,
+                               0x00000000};
 
 register int eax asm("eax");
 
