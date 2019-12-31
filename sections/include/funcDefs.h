@@ -14,13 +14,13 @@ class funcDefs
 public:
 
 	typedef void __Logf(const char* fmt, ...);
-	__Logf *Logf = (__Logf*)(_Logf);
+	//__Logf *Logf = (__Logf*)(_Logf);
 
 	typedef void __LuaState__Error(LuaState *a1, char *a2, ...);
 	__LuaState__Error *LuaState__Error = (__LuaState__Error*)(_LuaState__Error);
 
 	typedef int __lua_gettop(int a1);
-	__lua_gettop *lua_gettop = (__lua_gettop*)(_lua_gettop);
+	//__lua_gettop *lua_gettop = (__lua_gettop*)(_lua_gettop);
 
 	typedef __attribute__((cdecl)) _DWORD *__Eval_Lua_Object(int *a1, const struct LuaStackObject *a2, LuaState *a3, int a4);
 	__Eval_Lua_Object *Eval_Lua_Object = (__Eval_Lua_Object*)(_Eval_Lua_Object);
@@ -45,10 +45,10 @@ public:
 	    (__Moho_SSTICommandIssueData_Destructor_SSTICommandIssueData*)(_Moho_SSTICommandIssueData_Destructor_SSTICommandIssueData);
 
 	typedef uint32 *__LuaPlus_LuaState_PushNil(int a1);
-	__LuaPlus_LuaState_PushNil *LuaPlus_LuaState_PushNil = (__LuaPlus_LuaState_PushNil*)(_LuaPlus_LuaState_PushNil);
+	//__LuaPlus_LuaState_PushNil *LuaPlus_LuaState_PushNil = (__LuaPlus_LuaState_PushNil*)(_LuaPlus_LuaState_PushNil);
 
 	typedef _DWORD *__LuaPlus_LuaObject_PushStack(_DWORD *_this, _DWORD *a2, lua_State **a3);
-	__LuaPlus_LuaObject_PushStack *LuaPlus_LuaObject_PushStack = (__LuaPlus_LuaObject_PushStack*)(_LuaPlus_LuaObject_PushStack);
+	//__LuaPlus_LuaObject_PushStack *LuaPlus_LuaObject_PushStack = (__LuaPlus_LuaObject_PushStack*)(_LuaPlus_LuaObject_PushStack);
 
 	//extern functions:
 	//MSVCR80.dll
@@ -56,7 +56,7 @@ public:
 	__memmove_s *memmove_s = (__memmove_s*)(_memmove_s);
 
 	typedef __attribute__((cdecl)) int __lua_getglobaluserdata(int a1);
-	__lua_getglobaluserdata *lua_getglobaluserdata = (__lua_getglobaluserdata*)(_lua_getglobaluserdata);
+	//__lua_getglobaluserdata *lua_getglobaluserdata = (__lua_getglobaluserdata*)(_lua_getglobaluserdata);
 
 	//shsmp.dll
 	typedef void __j_shi_delete_0(int a1);

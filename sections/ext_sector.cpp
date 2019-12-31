@@ -16,20 +16,6 @@
 //const char* sSTAYONWATSUR = "STAYONWATSUR";
 // ForgedAlliance.exe addresses.
 
-funcDefs fd;
-GFT Gft;
-register int eax asm("eax");
-
-void print_hello_world()
-{
-	fd.Logf("Hello World!");
-}
-
-int dec_IssueMove()
-{
-	return Gft.IssueMove();
-}
-
 bool game_ended = false;
 
 void EndGame()
