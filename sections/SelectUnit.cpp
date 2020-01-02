@@ -1,9 +1,12 @@
+
+char sCQUEMOV[] = "CQUEMOV";
+char** pCQUEMOV = (char**)&sCQUEMOV;
+
 void SelectUnit()
 {
-    const char* sCQUEMOV = "CQUEMOV";
     __asm__
     (
-        "PUSH DWORD PTR SS:%[sCQUEMOV] \n"
+        "PUSH %[pCQUEMOV] \n"
         "LEA ECX,SS:[ESP+0x50] \n"
         "CALL 0x00405550 \n"
         "MOV DWORD PTR SS:[ESP+0x70],1 \n"
@@ -18,7 +21,7 @@ void SelectUnit()
         "LEA ECX,SS:[ESP+0x50] \n"
         "JMP 0x008C0603 \n"
         :
-        : [sCQUEMOV] "i" (sCQUEMOV)
-        :
+        : [pCQUEMOV] "r" (pCQUEMOV)
+        : 
     );
 }

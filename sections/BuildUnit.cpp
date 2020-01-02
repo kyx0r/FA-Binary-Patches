@@ -1,11 +1,19 @@
+
+char _sCQUEMOV[] = "CQUEMOV";
+char** _pCQUEMOV = (char**)&_sCQUEMOV;
+
 void BuildUnit()
 {
-    const char* sCQUEMOV = "CQUEMOV";
     __asm__
     (
         "PUSH 0x00E19824 \n"
         "JMP SHORT L1 \n"
-    "L2: PUSH DWORD PTR SS:%[sCQUEMOV] \n"
+		"L2:\n" 
+	);
+	
+	__asm__
+    (		
+	    "PUSH %[_pCQUEMOV] \n"
         "MOV EDX,SS:[ESP-0x80] \n"
         "MOV ECX,SS:[ESP] \n"
         "MOV EDX,SS:[EDX] \n"
@@ -13,7 +21,8 @@ void BuildUnit()
         "CMP EDX,ECX \n"
         "JE 0x006EFACE \n"
         "MOV SS:[ESP+0x20],EAX \n"
-    "L1: LEA ECX,SS:[ESP+0x44] \n"
+        "L1: \n"
+        "LEA ECX,SS:[ESP+0x44] \n"
         "CALL 0x00405550 \n"
         "MOV BYTE PTR SS:[ESP+0x36C],1 \n"
         "MOV EBX,1 \n"
@@ -25,7 +34,7 @@ void BuildUnit()
         "JNE 0x006EFAF8 \n"
         "JMP SHORT L2 \n"
         :
-        : [sCQUEMOV] "i" (sCQUEMOV)
+        : [_pCQUEMOV] "r" (_pCQUEMOV)
         :
     );
 }

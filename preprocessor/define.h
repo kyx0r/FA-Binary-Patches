@@ -40,7 +40,7 @@
 #define SimSetCommandSource 0x128f6e0
 #define MOHO_USER_INPUT 0x128f750
 #define SelectUnit 0x1290400
-#define SimArmyCreate 0x1290450
+#define SimArmyCreate 0x1290440
 #define UGDAPRegDesc 0x1291004
 #define SSFARegDesc 0x1291020
 #define SGDAPRegDesc 0x129103c
@@ -48,7 +48,11 @@
 #define SSIRRegDesc 0x1291074
 #define sender_sock 0x1291090
 #define safe_quit 0x1291098
-#define LOWSELECTPRIO 0x129109c
+#define _pCQUEMOV 0x129109c
+#define _sCQUEMOV 0x12910a0
+#define LOWSELECTPRIO 0x12910a8
+#define pCQUEMOV 0x12910b8
+#define sCQUEMOV 0x12910bc
 #define SalemDefaultBp 0x1293000
 #define SalemWaterOnlyBp 0x1293020
 #define game_ended 0x1293620
