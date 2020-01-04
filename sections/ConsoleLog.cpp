@@ -1,5 +1,5 @@
 void ConsoleLog()
-{
+{//Writes called console commands to the log.
     __asm__
     (
         "MOV DWORD PTR SS:[EBP-4],2 \n"
