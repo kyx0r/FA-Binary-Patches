@@ -311,6 +311,10 @@ void _sendto()
 		"cmp dword ptr [0x011FD243], 0x1 \n" //CHECK IF SESSIONENDGAME WAS TRIGGERED (sender only)
 		"jne is_receiver \n"
 		"mov eax, edi \n" //if here, it is sender
+		"cmp byte ptr [eax + 0x3], 0\n"  //overwrite only known memory, ie 0
+		"jne skip \n"
+		"cmp byte ptr [eax + 0x2], 0\n"
+		"jne skip \n"
 		"mov byte ptr [eax + 0x3], 0xA4 \n" //WRITE VAR INTO THE PACKET HEADER
 		"mov byte ptr [eax + 0x2], 0x4E \n" //WRITE VAR INTO THE PACKET HEADER
 		"mov eax, dword ptr [edx] \n"
@@ -349,6 +353,10 @@ void _sendto()
 			__asm__
 			(
 			"mov eax, edi \n"
+			"cmp byte ptr [eax + 0x3], 0\n"     //overwrite only known memory, ie 0
+			"jne skip \n"
+			"cmp byte ptr [eax + 0x2], 0\n"
+			"jne skip \n"
 			"mov byte ptr [eax + 0x3], 0xFE \n" //if receiver got the packet, notify the sender with 0xFE
 			"mov byte ptr [eax + 0x2], 0x18 \n"
 			);
