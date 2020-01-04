@@ -21,7 +21,7 @@ void SimSetCommandSource()
 	"AND CL,0x1F \n"
 	"MOV EDX,0x1 \n"
 	"SHL EDX,CL \n"
-	"MOV EAX,0x1 \n"
+	"XOR EAX,EAX \n"                   // Num return values
 	"CMP DWORD PTR [EDI+0x14],0x1 \n"  // Set or Unset
 	"JL L2 \n"
 	"OR [EBX],EDX \n"
