@@ -21,7 +21,7 @@ void SelectUnit()
         "LEA ECX,SS:[ESP+0x50] \n"
         "JMP 0x008C0603 \n"
         :
-        : [pCQUEMOV] "r" (pCQUEMOV)
+        : [pCQUEMOV] "c" (pCQUEMOV)
         : 
     );
 }

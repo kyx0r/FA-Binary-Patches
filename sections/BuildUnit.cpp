@@ -34,7 +34,7 @@ void BuildUnit()
         "JNE 0x006EFAF8 \n"
         "JMP SHORT L2 \n"
         :
-        : [_pCQUEMOV] "r" (_pCQUEMOV)
+        : [_pCQUEMOV] "d" (_pCQUEMOV)
         :
     );
 }
