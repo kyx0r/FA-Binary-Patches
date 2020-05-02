@@ -34,7 +34,7 @@ struct string
 
 struct vector
 {
-	void* unknown1;
+	char pad[4];
 	void** objects_begin;
 	void** objects_end;
 	void** objects_capacity_end;
@@ -65,19 +65,52 @@ struct list // probably not from visual c++, but made by gpg
 typedef int SOCKET;
 // GPGCore
 
-struct Stream
-{
-
+struct Vector2f
+{	// 0x8 bytes
+	float x,z;
 };
 
-struct PipeStream // : Stream
-{	// 0x48 bytes
+struct Vector3f
+{	// 0xC bytes
+	float x,y,z;
+};
 
+struct Vector4f
+{	// 0x10 bytes
+	float x,y,z,w;
+};
+
+struct RObject
+{	// ~0x10 bytes
+	void* vtable;
+};
+
+struct CScriptObject // : RObject
+{	// ~0x34 bytes
+};
+
+struct WeakObject
+{
+	void* vtable;
 };
 
 struct gpg_mutex
 {
-	int vooodoo;
+	int unknown1;
+	bool unknown2; // if value is 0 then NTDLL.RtlEnterCriticalSection is bypassed
+};
+
+struct Stream
+{	// 0x1C bytes
+	void* vtable;
+};
+
+struct PipeStream // : Stream
+{	// 0x48 bytes
+};
+
+struct FileStream // : Stream
+{	// 0x34 bytes
 };
 
 //LuaPlus
@@ -143,21 +176,29 @@ struct LuaObject
 // Moho
 struct Moho__SSTICommandIssueData
 {
-	int unknown;
 };
 
-struct Moho__CUnitCommand
+struct Camera // : RCamCamera
+{	// 0x858 bytes
+};
+
+struct CMauiControl // : CScriptObject
 {
-	int unknown;
+};
+
+struct CUIWorldView // : CMauiControl
+{	// 0x2A8 bytes
+	// at 0x120
+	Camera* Camera;
 };
 
 struct linked_list
 {
-	void* not_sure;
 };
+
 struct moho_set
 {       // 0x20 bytes
-	int baseIndex; // integer_base >> 5 (bits in dword)
+	int baseIndex; // integer_base >> 5 (bits in uint)
 	int unknown2;
 	uint* items_begin;
 	uint* items_end;
@@ -186,10 +227,22 @@ struct moho_set
 	}
 #endif
 };
+
 struct RRuleGameRules
 {	// 0xD0 bytes
 	void* vtable;
+	// at 0x2C
+	//list L1;
+	// at 0x48
+	//list L2;
+	// at 0xB8
+	list Blueprints; // <RBlueprint*>
+	//list L3;
+	// at 0xC4
+	//void* Blueprints;
+	//void* Start, End;
 };
+
 struct LaunchInfoNew
 {	// 0xA4 bytes
 	void* vtable;
@@ -214,22 +267,66 @@ struct LaunchInfoNew
 	int unknown4;
 };
 
+struct REffectBlueprint // : RObject
+{
+};
+
+struct RBeamBlueprint // : REffectBlueprint
+{	// 0x140 bytes
+};
+
+struct RBlueprint // : RObject
+{	// ~0x60 bytes
+	// at 0x4
+	RRuleGameRules* owner;
+	string name;
+};
+
+struct RMeshBlueprint // : RBlueprint
+{	// 0x80 bytes
+};
+
+struct REntityBlueprint // : RBlueprint
+{	// ~0x17C bytes
+	// at 0x64
+	list Categories; // <string>
+};
+
+struct RPropBlueprint // : REntityBlueprint
+{	// 0x1AC bytes
+};
+
+struct RProjectileBlueprint // : REntityBlueprint
+{	// 0x268 bytes
+};
+
+struct RUnitBlueprint // : REntityBlueprint
+{	// 0x568 bytes
+	// at 0x43C
+	string ArmorType;
+	// at 0x564
+	float MaxBuildDistance;
+};
+
 struct IClientManager
 {
 	void* vtable;
 };
+
 struct CWldMap
 {
 	void* zero1;
 	void* zero2;
 	void* zero3;
 };
+
 struct Deposit
 {	// 0x14 bytes
 	int X1,Z1,X2,Z2; // Rect
 	int Type; // 1 - Mass, 2 - Energy
 };
-struct CSimResources
+
+struct CSimResources // : ISimResources // : IResources
 {	// 0x1C bytes
 	void* vtable;
 	// at 0x8 in vtable
@@ -240,6 +337,7 @@ struct CSimResources
 	// at 0x10
 	list Deposits; // <Deposit*>
 };
+
 struct SWldSessionInfo
 {	// 0x30 bytes
 	string map_name;
@@ -259,38 +357,40 @@ struct SWldSessionInfo
 	IClientManager* clientManager;
 	int unknown4; // = 255 possibly cmdSourceIndex
 };
+
 struct SimArmyEconomyInfo
 {	// 0x60 bytes
 	void* unknown1;
 	int unknown2;
 	float _incomeEnergy;    // div 10
 	float _incomeMass;      // div 10
-	
+
 	float baseIncomeEnergy; // div 10
 	float baseIncomeMass;   // div 10
 	float storedEnergy;
 	float storedMass;
-	
+
 	float incomeEnergy;     // div 10
 	float incomeMass;       // div 10
 	float reclaimedEnergy;
 	float reclaimedMass;
-	
+
 	float requestedMass;    // div 10
 	float requestedEnergy;  // div 10
 	float lossMass;         // div 10
 	float lossEnergy;       // div 10
-	
+
 	uint maxEnergy;
 	int unknown3;
 	uint maxMass;
 	int unknown4;
-	
+
 	float unknown5;
 	uint isResourceSharing;
 	float unknown6;
 	float unknown7;
 };
+
 struct UserArmy
 {	// 0x210 bytes
 	void* unknown1;
@@ -304,17 +404,17 @@ struct UserArmy
 	// at 0x80
 	float storedEnergy;
 	float storedMass;
-	
+
 	float incomeEnergy;     // div 10
 	float incomeMass;       // div 10
 	float reclaimedEnergy;
 	float reclaimedMass;
-	
+
 	float requestedMass;    // div 10
 	float requestedEnergy;  // div 10
 	float lossMass;         // div 10
 	float lossEnergy;       // div 10
-	
+
 	uint maxEnergy;
 	int unknown3; // =0
 	uint maxMass;
@@ -338,7 +438,8 @@ struct UserArmy
 	// at 0x1B8 FA
 	bool outOfGame;
 };
-struct SimArmy
+
+struct SimArmy // : IArmy
 {	// 0x288 bytes
 #ifdef FORGED_ALLIANCE
 	void* vtable;
@@ -354,17 +455,17 @@ struct SimArmy
 	// at 0x88 Copy from [[self+1F4]+18]
 	float storedEnergy;
 	float storedMass;
-	
+
 	float incomeEnergy;     // div 10
 	float incomeMass;       // div 10
 	float reclaimedEnergy;
 	float reclaimedMass;
-	
+
 	float requestedMass;    // div 10
 	float requestedEnergy;  // div 10
 	float lossMass;         // div 10
 	float lossEnergy;       // div 10
-	
+
 	uint maxEnergy;
 	int unknown3; // =0
 	uint maxMass;
@@ -374,7 +475,7 @@ struct SimArmy
 	moho_set neutrals;
 	moho_set allies;
 	moho_set enemies;
-	
+
 	char datas[0x52];
 	// at 0x130 FA
 	moho_set mValidCommandSources;
@@ -388,16 +489,12 @@ struct SimArmy
 	// at 0x1C0 FA
 	bool outOfGame;
 	// at 0x1C4 FA
-	struct
-	{
-		float X;
-		float Z;
-	} StartPosition;
+	Vector2f StartPosition;
 	// at 0x1D0
 	float noRushRadius;
 	float noRushOffsetX;
 	float noRushOffsetY;
-	
+
 	// at 0x1E8
 	void* Sim;
 	void* CAiBrain;
@@ -419,53 +516,154 @@ struct SimArmy
 #endif
 };
 
-struct Sim
+struct CArmyImpl // : SimArmy
+{
+};
+
+struct Entities
+{	// 0x50 bytes
+};
+
+struct EntityChain // [[Entities+4]+4]
+{
+	void* Next;
+	//void* ?;
+	//void* ?;
+	int ID;
+	void* Entity;
+};
+
+struct Entity // : CScriptObject
+{	// ~0x270 bytes
+};
+
+struct Projectile // : Entity
+{	// 0x380 bytes
+	// at 0x6C
+	RProjectileBlueprint* Blueprint;
+};
+
+struct Prop // : Entity
+{	// 0x288 bytes
+	// at 0x6C
+	RPropBlueprint* Blueprint;
+};
+
+struct Unit // : IUnit
+{	// 0x6A8 bytes
+	// at 0x44
+	int UnitID;
+	// at 0x50
+	void* self1;
+	// at 0x74
+	RUnitBlueprint* Blueprint;
+	// at 0x98
+	float CurHealth;
+	float MaxHealth;
+	// at 0xA4
+	Vector4f Rot1;
+	Vector3f Pos1;
+	Vector4f Rot2;
+	Vector4f Pos2;
+	// at 0x158
+	Vector4f Rot3;
+	Vector3f Pos3;
+	// at 0x17C
+	int TickCount1; // Readonly
+	// at 0x248
+	Vector3f Pos4;
+	Vector3f Pos5;
+	// at 0x298
+	float ShieldPercent; // Readonly
+	// at 0x59C
+	Vector3f Pos6;
+	// at 0x668
+	int TickCount2; // Readonly
+};
+
+struct UserEntity // : WeakObject
+{	// 0x148 bytes
+	// at 0x48
+	RPropBlueprint* Blueprint;
+	// at 0x74
+	Vector4f Rot1;
+	Vector4f Pos1;
+	// at 0x90
+	Vector4f Rot2;
+	Vector4f Pos2;
+	// at 0xD0
+	//float x1,y1,x2,y2;
+	// at 0x120
+	UserArmy* Owner;
+	Vector4f Rot3;
+	Vector4f Pos3;
+};
+
+struct UserUnit // : UserEntity
+{	// 0x3E8 bytes
+	// at 0x48
+	RUnitBlueprint* Blueprint;
+};
+
+struct Sim // : ICommandSink
 {	// 0xAF8 bytes
 	void* vtable;
 #ifdef FORGED_ALLIANCE
-	// at 0x8C8
-	RRuleGameRules* rules; // from STIDriver.LaunchInfoNew
-	void* STIMap;          // from STIDriver.LaunchInfoNew
+	// at 0x8C0
+	void* CEffectManager;   // 0x18 bytes
+	void* CSimSoundManager; // 0x720 bytes
+	RRuleGameRules* rules;  // from CSimDriver.LaunchInfoNew
+	void* STIMap;           // from CSimDriver.LaunchInfoNew
 	CSimResources* Deposits;
+	// at 0x8D8
+	void* LuaStack; // 0x34 bytes
 	// at 0x904
 	void* unknown1; // 0x9CC bytes
+	void* unknown2; // 0x68 bytes
 	// at 0x91C Moho | at 0x90C FA
 	vector armies;// <class Moho::SimArmy *>
 	// at 0x920
 	list SSTICommandSources;
 	// at 0x93C Moho | at 0x92C FA
 	int ourCmdSource; // possibly just current in simulation.
-	// at 0x984 FA
-	void* thing;
+	// at 0x97C
+	void** unknown3; // 0x30 bytes
+	void* CAiFormationDB; // 0x40 bytes
+	// at 0x984
+	void* Entities;
+	void* unknown4; // 0xCD0 bytes
+	// at 0x99C
+	void* unknown5; // 0xCF0 bytes
+	// at 0xA38
+	void* unknown6; // 0xC bytes
 #else
 #endif
 };
 struct CWldSession
 {	// 0x508 bytes
-	// Information about values is from constructor.
-
-	CWldSession* self1; // = this
-	CWldSession* self2; // = this
+	CWldSession* self1;
+	CWldSession* self2;
 
 	void* self_weird1; // = this + 0x8
 	void* self_weird2; // = this + 0x8
 
 	// at 0x10
 	LuaState* state; // sim? set from constructor argument
-	void* zero1;
-
+	void* unknown1; // 0x14 bytes
 	RRuleGameRules* rules;
 	CWldMap* map;
-
-	// at 0x20
 	void* LaunchInfoNew;
-	void* zero3; // .?AV?$sp_counted_impl_p@ULaunchInfoNew@Moho@@@detail@boost@@
+	void* unknown2; // .?AV?$sp_counted_impl_p@ULaunchInfoNew@Moho@@@detail@boost@@
 	string map_name;
+	Entities entities;
 
-	char stuff[0x3ac];
+	char stuff[0x35c];
 
-	// at 0x3f0
+	// at 0x3F0
 	list armies; // <UserArmy*>
+	// at 0x3FC
+	void* unknown3; // 0xCC0 bytes
+	void* unknown4; // 0x64 bytes
 	// at 0x424
 	CSimResources* Deposits;
 	// at 0x470
@@ -482,26 +680,58 @@ struct CWldSession
 	int focusArmyIndex; // focused army, -1 = observer
 
 	bool isGameOver;
-	// at 0x4b4
+	// at 0x4B4
 	float mouseWorldPosX;
 	float mouseWorldPosY;
 	float mouseWorldPosZ;
-	// at 0x4d4
+	// at 0x4D4
 	bool cheatsEnabled;
 };
 
-struct STIDriver // : ISTIDriver
+struct CSimDriver // : ISTIDriver
 {	// 0x230 bytes
 	void* vtable;
+	Sim* sim;
+	IClientManager* ClientManager;
 	// at 0x10
-	void* LaunchInfoNew; // from g_SWldSessionInfo
+	void* LaunchInfoNew; // from g_SWldSessionInfo, only when loading game init
+	// at 0x1C
+	uint beatCounter1;
+	uint beatCounter2; // copied to address 0x1290710
+	uint beatCounter3;
 	// at 0xb0
 	int simFocusArmyIndex;
+	// at 0x228
+	int maxSimRate; // from CalcMaxSimRate
+};
+
+struct CHeightField // : .?AVsp_counted_base@detail@boost@@
+{	// 0x10 bytes
+	void* vtable;
+};
+
+struct MapData
+{	// 0x1C bytes
+	uint* TerrainHeights; // Word(TerrainHeights+(Y*SizeX+X)*2)
+	int SizeX; // +1
+	int SizeY; // +1
 };
 
 struct STIMap
 {	// 0x1548 bytes
-
+	MapData* MapData;
+	CHeightField* HeightField;
+	// at 0x18
+	//list Data; -> Data
+	// at 0x28
+	char Data[0x1400];
+	char* TerrainTypes; // TerrainTypes+(Y*SizeX+X)
+	int SizeX;
+	int SizeY;
+	// at 0x1534
+	bool Water;
+	// at 0x1538
+	float WaterLevel;
 };
 
 struct SSTICommandSource
@@ -622,14 +852,20 @@ struct CClientManagerImpl // : IClientManager
 	bool mWeAreReady;
 	bool mEveryoneIsReady;
 	char _pad1[2];
-
 	int mDispatchedBeat;
 	int mAvailableBeat;
 	int mFullyQueuedBeat;
 	int mPartiallyQueuedBeat;
-	int mGameSpeedClock;
-	int mGameSpeedRequester; // misspelling? :D
-	int mGameSpeed;
+	int gameSpeedChangeCounter; // mGameSpeedClock
+	int mGameSpeedRequester;    // always 0
+	int gameSpeedRequested;     // mGameSpeed
+	bool speedControlEnabled;
+	// at 0x458
+	uint hEvent; // for KERNEL32.SetEvent
+	// at 0x18470
+	PipeStream mPipe;
+	// at 0x184BC
+	bool unknown; // if value is 1 then KERNEL32.SetEvent is bypassed
 };
 
 struct CClientBase // : IClient
@@ -642,83 +878,65 @@ struct CClientBase // : IClient
 	IClientManager* clientManager;
 
 	// at 0x30
-	/**
-		+-------------------------------------------------------+
-		|                                                       |
-		|    GOOD NEWS EVERYONE, IT'S A MOHO::SET***            |
-		|                                                       |
-		|    ( It's still a really weird structure              |
-		|      due to the magical optimizations                 |
-		|      possible for AABB Sets via bit manipulation. )   |
-		|                                                       |
-		|    *** Probably                                       |
-		+-------------------------------------------------------+
-
-		Actually, a shitty bitvector
-	*/
-	struct Unknown
-	{
-		int set_base; // integer_base >> 5 (bits in dword)
-		int unknown2;
-		void* memory;
-		void* memory_end;
-		void* unknown5;
-		void* unknown6;
-		void* unknown7;
-		void* unknown8;
-	} thisIsTheWeirdestStructureIHaveSeen;
-
-	//vector mValidCommandSources; // <int>?
-
-	//int unknwon3;
-	//int unknown4;
-	//int unknwon5;
-	//int unknown6;
-
+	moho_set unknown1;
 	// at 0x50
 	int mCommandSource;
 	bool mReady;
 	char _pad1[3];
-
 	PipeStream mPipe;
 
 	// at 0xA0
 	int mQueuedBeat;
 	int mDispatchedBeat;
 	int mAvailableBeatRemote;
-	vector mLatestAckReceived;
+	vector mLatestAckReceived; // <int>
 	int mLatestBeatDispatchedRemote;
 	// at 0xC0
 	bool mEjectPending;
 	bool mEjected;
 	char _pad2[2];
-	list mEjectRequests; // <struct{ IClient* mRequester; int mAfterBeat;}>
+	vector mEjectRequests; // <struct{IClient* mRequester; int mAfterBeat;}>
+	int maxSimRate; // from CalcMaxSimRate
+};
 
-	void* unknown;
-	// at 0xD0
-	void* uknown;
+struct CLocalClient // : CClientBase
+{	// 0xD8 bytes
+};  // equal CClientBase
+
+struct CReplayClient // : CClientBase
+{	// 0x160 bytes
+	// before 0xD8 it CClientBase
+	// at 0xD8
+	FileStream* stream;
+	// at 0xE0
+	void* ptr1; // self+0xF0
+	void* ptr2; // self+0xF0
+	void* ptr3; // self+0x130
+	void* ptr4; // self+0xF0
+	void* unknown1;
+	// at 0x130
+	void* unknown2;
+	// at 0x138
+	uint replayBeat;
+	char unknown3;
+	void* unknown4;
+	uint hSemaphore1;
+	uint hSemaphore2;
+	uint hMutex;
+	// at 0x15C
+	char unknown5;
+	char unknown6;
 };
 
 struct CNetUDPConnetor // : INetConnector
-{
-	INetConnector _base;
+{	// 0x18090 bytes
+	void* vtable;
 	void* smth; // listen socket fd?
 	gpg_mutex mMutex;
 	// at 0x14
 	SOCKET mSocket;
 	// at 0x24
-	linked_list mConnections;// CNetUDPConnection*
-};
-
-struct ISTIDriver
-{
-	void* vtable;
-};
-struct CSTIDriver // : ISTIDriver
-{
-	ISTIDriver _base;
-	void* notcarenow;
-	IClientManager* clientManager;
+	linked_list mConnections; // <CNetUDPConnection*>
 };
 /** Game Types
   Multiplayer - CLobby::LaunchGame
