@@ -253,7 +253,7 @@ LuaObjectFinalize
 004899E0 DestroyCNetUDPConnetor
 007AA9C0 CreateCamera
 007A7950 InitCamera
-007A7F00 DestroyCamera
+007A7DC0 DestroyCamera
 00894530 UserSync
 008B1520 InitUserArmy
 008B85E0 InitUserEntity
@@ -264,7 +264,7 @@ LuaObjectFinalize
 00677C90 InitEntity
 007489E0 CreateUnit
 006A53F0 InitUnit
-006A6BF0 DestroyUnit
+006A5320 DestroyUnit
 006A0FB0 CreateProjectile
 0069AFE0 InitProjectile
 006FB3B0 CreateProp

@@ -551,11 +551,10 @@ struct Prop // : Entity
 
 struct Unit // : IUnit
 {	// 0x6A8 bytes
-	// at 0x44
-	int UnitID;
 	// at 0x50
 	void* self1;
-	// at 0x74
+	// at 0x70
+	int UnitID;
 	RUnitBlueprint* Blueprint;
 	// at 0x98
 	float CurHealth;
@@ -565,7 +564,8 @@ struct Unit // : IUnit
 	Vector3f Pos1;
 	Vector4f Rot2;
 	Vector4f Pos2;
-	// at 0x158
+	// at 0x154
+	SimArmy* Owner;
 	Vector4f Rot3;
 	Vector3f Pos3;
 	// at 0x17C
@@ -583,11 +583,15 @@ struct Unit // : IUnit
 
 struct UserEntity // : WeakObject
 {	// 0x148 bytes
-	// at 0x48
+	// at 0x44
+	int EntityID;
 	RPropBlueprint* Blueprint;
+	// at 0x68
+	float CurHealth;
+	float MaxHealth;
 	// at 0x74
 	Vector4f Rot1;
-	Vector4f Pos1;
+	Vector3f Pos1;
 	// at 0x90
 	Vector4f Rot2;
 	Vector4f Pos2;
@@ -601,7 +605,8 @@ struct UserEntity // : WeakObject
 
 struct UserUnit // : UserEntity
 {	// 0x3E8 bytes
-	// at 0x48
+	// at 0x44
+	int UnitID;
 	RUnitBlueprint* Blueprint;
 };
 
