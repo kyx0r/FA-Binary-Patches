@@ -1,8 +1,7 @@
-//ROffset = 0x004D2D07
+//ROffset = 0x004D0E93
 
 __asm__ volatile
 (
-    "nop \n"
     "nop \n"
     "nop \n"
     "nop \n"
