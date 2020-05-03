@@ -10,5 +10,3 @@ __asm__ volatile
     "nop \n"
     ".align 128, 0x0 \n"
 );
-
-
