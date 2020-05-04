@@ -1,16 +1,24 @@
 #pragma once
 
-// GetClassNamePtr -> [[[[Self]]-4]+C]+8
+// GetClassNamePtr -> [[[Self]-4]+C]+8
+// GetParentClassNamePtr -> [[[[Self]-4]+28]]+8
 
 // Globals
 const int g_STIDriver = 0x10C4F50;
 const int g_SWldSessionInfo = 0x10C4F58;
 const int g_CWldSession = 0x10A6470;
 const int g_Sim = 0x10A63F0;
+const int g_EntityCategoryTypeInfo = 0x10C6E70;
+const int g_CAiBrainTypeInfo = 0x10C6FA0;
+const int g_CUIManager = 0x10A6450;
 
 const int ui_SelectTolerance = 0x0F57A90;
 const int ui_ExtractSnapTolerance = 0x0F57A94;
 const int ui_DisableCursorFixing = 0x10A6464;
+const int ui_RenderIcons = 0x00F57B27;
+const int range_RenderSelected = 0x010A640A;
+const int range_RenderHighlighted = 0x010A640B;
+const int range_RenderBuild = 0x010A6414;
 
 // String const
 const int s_FACTORY = 0xE19824;
@@ -53,6 +61,9 @@ CreateTable
 LuaObjectFinalize
 
 // Table self -> ecx
+
+004D3250 DoFile(out Table*, LuaState*, char* filename):eax
+00908F60 GetVar(Table* ecx, out LuaObject*, char* key):eax
 
 00907FF0 PushNumber(Table* ecx, value)
 
@@ -109,7 +120,7 @@ LuaObjectFinalize
 00907A90 GetAsString(LuaObject* ecx):eax
 00907AF0 GetAsStringLen(LuaObject* ecx):eax
 00907B50 GetAsCFunction(LuaObject* ecx):eax
-00907BC0 GetAsUserData(LuaObject* ecx):eax
+00907BC0 GetAsUserData(LuaObject* ecx, out Result*):eax
 00907C30 GetAsLightUserData(LuaObject* ecx):eax
 00907C90 GetAsBoolean(LuaObject* ecx):eax
 
@@ -162,6 +173,7 @@ LuaObjectFinalize
 00937C30 SpewF(char* str, args...)
 00937CB0 LogF(char* str, args...)
 00937D30 WarningF(char* str, args...)
+0041C990 ConsoleLogF(char* str, args...)
 
 00958B20 AllocMemory(Size):eax
 00957A70 AllocMemory+1
@@ -170,17 +182,6 @@ LuaObjectFinalize
 00957AF0 FreeMemory+1
 00957A60 FreeMemory+2
 00A82542 FreeMemory+3
-
-0128B02C HOOK SimArmyCreate
-0128B070 HOOK BuildUnit
-0128B0D0 HOOK SelectUnit
-0128B118 HOOK ArmyGetHandicap
-0128B170 HOOK LoadSavedGame
-0128B3D9 HOOK ValidateFocusArmy // Deadcode
-0128B1F8 - 0128B20A             // Deadcode
-0128B22C - 0128B641             // Deadcode
-
-0128B20C GetInteger(lua_State*, index):eax  // lua_toint
 
 00AA549E StrCmp(char* str1, char* str2)
 00A89190 CopyMem(void* dest, void* src, len)
@@ -195,6 +196,7 @@ LuaObjectFinalize
 004CD3A0 Register LUA function
 00528460 RRuleGameRulesAlloc(Arg1,Arg2)
 00529120 RRuleGameRulesInit(Arg1,Arg2,Arg3)
+00529510 DestroyRRuleGameRules
 00546650 FindRes(CSimResources* ecx, Type, Rect*):Bool
 00546760 FindRes(CSimResources* ecx, PtrPosXY, PtrResultXY, Radius, Type):Bool
 00581AA0 OnInit(Arg1)
@@ -203,7 +205,9 @@ LuaObjectFinalize
 00707BF0 Internal IsNeutral
 006FE530 SimArmyAlloc(Arg1,Arg2,Arg3,Arg4,Arg5,Arg6)
 006FE690 SimArmyCreate(Arg1,Arg2,Arg3,Arg4,Arg5,Arg6)
-00707D60 GetSimArmy ?
+006FE670 DestroySimArmy
+005930D0 GetBrain(Table* eax):eax
+00707D60 GetSimArmy
 0073B1B0 SetArmyIndex(CSimDriver* ecx, value)
 0073F4E0 CSimDriverAlloc(Arg1,Arg2,Arg3,Arg4)
 0073B570 CSimDriverInit(Arg1,Arg2,Arg3)
@@ -224,7 +228,67 @@ LuaObjectFinalize
 008C0500 SelectUnit
 008CEDE0 AppInit
 008D4010 SC_CreateEntityDialog
-008F4080 Set D3DXEffect technique?
+0055AE10 CalcMaxSimRate
+0053E590 SetSimRate
+0053E720 GetSimRate
+0053E7E0 GetSimRateRequested
+007EF9B0 RenderRing
+008F3C40 D3DXEffect::GetPassCount ?
+008F4080 D3DXEffect::BeginPass ?
+008F4260 D3DXEffect::EndPass ?
+00941D70 D3DXEffect::SetMatrix ?
+00941F60 D3DXEffect::SetTechnique
+0053E180 CreateCLocalClient
+0053BD40 InitCClientBase
+0053FAF0 CreateCClientManager
+0053DF20 InitCClientManager
+0053E400 CreateCReplayClient
+0053BA50 InitCReplayClient
+00956DB0 InitStream
+009565D0 InitPipeStream
+00955BD0 InitFileStream
+00955870 DestroyFileStream
+0048BBE0 CreateCNetUDPConnetor
+004896F0 InitCNetUDPConnetor
+004899E0 DestroyCNetUDPConnetor
+007AA9C0 CreateCamera
+007A7950 InitCamera
+007A7DC0 DestroyCamera
+00894530 UserSync
+008B1520 InitUserArmy
+008B85E0 InitUserEntity
+008BF420 InitUserUnit
+008B8760 DestroyUserEntity
+008BF990 DestroyUserUnit
+004C7010 InitRObjectAndCScriptObject
+00677C90 InitEntity
+007489E0 CreateUnit
+006A53F0 InitUnit
+006A5320 DestroyUnit
+006A0FB0 CreateProjectile
+0069AFE0 InitProjectile
+006FB3B0 CreateProp
+006F9D90 InitProp
+0050DD60 InitRBlueprint
+00511C30 InitREntityBlueprint
+00532680 CreateRMeshBlueprint
+005283A0 InitRMeshBlueprint
+00531D80 CreateRUnitBlueprint
+0051E480 InitRUnitBlueprint
+00532080 CreateRPropBlueprint
+0051D250 InitRPropBlueprint
+00532380 CreateRProjectileBlueprint
+0051B740 InitRProjectileBlueprint
+005289D0 RegisterBlueprint(RRuleGameRules*, char* Category)
+00577890 InitSTIMap
+005790E0 CreateCHeightField
+0044FB90 GetTerrainHeight(float x, float z):int ecx
+0074B120 FlattenTerrain(STIMap*, int Rect*, float Height)
+00476BB0 UpdateMinimap(MapData*, int x1, int y1, int x2, int y2)
+00890DA0 MapLoad
+0057CBB0 CanBuildStructureAt(CAiBrain*, x, y, z, Blueprint*, ?, ?, ?):al
+006856C0 SimFindEntityChainById(ecx* entities, ebx* id, eax* result)
+00898DC0 UserFindEntityChainById(ecx* entities, ebx* id, eax* result)
 */
 const int _Logf = 0x937CB0;
 const int LuaState__CastState = 0x90A510; // LuaState* (lua_state*)
